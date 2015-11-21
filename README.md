@@ -1,0 +1,1 @@
+# ngra-album-manager
