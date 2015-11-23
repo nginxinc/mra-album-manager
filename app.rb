@@ -19,28 +19,29 @@ end
 
 # list all
 get '/albums' do
-	Album.all.to_json
+	albums = Album.includes(:poster_image).all.to_json(:include => :poster_image, :methods => :url)
 end
 
 # view one
 get '/albums/:id' do
-	album = Album.includes(:images).find(params[:id])
-	return status 404 if album.nil?
-	album.to_json
+	@album = Album.includes(:images, :poster_image).find(params[:id])
+	return status 404 if @album.nil?
+	@album.to_json(:include => [:images, :poster_image])
 end
 
 # create
 post '/albums' do
-	album = Album.new(params)
+	album = Album.new(params['album'])
 	album.save
 	status 201
 end
 
 # update
 put '/albums/:id' do
+	p params
 	album = Album.find(params[:id])
 	return status 404 if album.nil?
-	album.update(params)
+	album.update(params['album'])
 	album.save
 	status 202
 end
@@ -66,7 +67,7 @@ end
 
 # create
 post '/images' do
-	image = Image.new(params)
+	image = Image.new(params['image'])
 	image.save
 	status 201
 end
@@ -75,7 +76,7 @@ end
 put '/images/:id' do
 	image = Image.find(params[:id])
 	return status 404 if image.nil?
-	image.update(params)
+	image.update(params['image'])
 	image.save
 	status 202
 end
