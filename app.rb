@@ -10,6 +10,8 @@ require './models/album.rb'
 require './models/image.rb'
 
 set :bind, '0.0.0.0'
+set :dump_errors, true
+set :show_exceptions, true
 
 before do
 	content_type 'application/json'
