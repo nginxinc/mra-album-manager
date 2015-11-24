@@ -3,14 +3,13 @@ source 'http://rubygems.org'
 gem 'sinatra'
 gem 'activerecord'
 gem 'sinatra-activerecord'
-gem 'sqlite3'
-gem 'dotenv'
 gem 'sinatra-reloader'
 gem 'json'
  
 group :development, :test do
-  gem 'annotate'
+  gem 'sqlite3'
 end
  
 group :production do
+  gem 'mysql2'
 end

@@ -6,13 +6,13 @@ build:
 	docker build -t $(name) .
 
 run:
-	docker run -it ${ports} $(name)
+	docker run -it --env-file=.env ${ports} $(name)
 
 run-v:
-	docker run -it ${ports} $(volumes) $(name)
+	docker run -it --env-file=.env ${ports} $(volumes) $(name)
 
 shell:
-	docker run -it ${ports} $(volumes) $(name) bash
+	docker run -it --env-file=.env ${ports} $(volumes) $(name) bash
 
 push:
 	docker push $(name)
