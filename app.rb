@@ -9,6 +9,8 @@ require 'json'
 require './models/album.rb'
 require './models/image.rb'
 
+set :bind, '0.0.0.0'
+
 before do
 	content_type 'application/json'
 end

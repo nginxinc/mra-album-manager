@@ -1,5 +1,5 @@
 FROM ruby:2.2.3-onbuild
 
-EXPOSE 4567
+EXPOSE 80
 
-CMD ["./app.rb"]
+CMD ["bundle", "exec", "ruby", "app.rb"]

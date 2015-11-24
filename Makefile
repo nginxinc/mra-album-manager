@@ -1,6 +1,6 @@
 name = ngrefarch/ngra-album-manager
-volumes = -v $(CURDIR):/app
-ports = -p 80:4567
+volumes = -v $(CURDIR):/usr/src/app
+ports = -p 80:80
 
 build:
 	docker build -t $(name) .
