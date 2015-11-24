@@ -9,8 +9,6 @@ require 'json'
 require './models/album.rb'
 require './models/image.rb'
 
-set :database, {adapter: "sqlite3", database: "album_manager.sqlite3"}
-
 before do
 	content_type 'application/json'
 end
@@ -40,7 +38,6 @@ end
 
 # update
 put '/albums/:id' do
-	p params
 	album = Album.find(params[:id])
 	return status 404 if album.nil?
 	album.update(params['album'])
