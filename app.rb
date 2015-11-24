@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/reloader'
