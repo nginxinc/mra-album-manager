@@ -14,30 +14,30 @@
 ActiveRecord::Schema.define(version: 20151125160946) do
 
   create_table "albums", force: :cascade do |t|
-    t.string   "name",            limit: 255
-    t.string   "description",     limit: 255
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.string   "user_id",         limit: 255
-    t.integer  "poster_image_id", limit: 4
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "user_id"
+    t.integer  "poster_image_id"
   end
 
   create_table "images", force: :cascade do |t|
-    t.string   "name",          limit: 255
-    t.string   "description",   limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
-    t.integer  "album_id",      limit: 4
-    t.string   "url",           limit: 255
-    t.string   "thumb_url",     limit: 255
-    t.integer  "thumb_height",  limit: 4
-    t.integer  "thumb_width",   limit: 4
-    t.string   "medium_url",    limit: 255
-    t.integer  "medium_height", limit: 4
-    t.integer  "medium_width",  limit: 4
-    t.string   "large_url",     limit: 255
-    t.integer  "large_height",  limit: 4
-    t.integer  "large_width",   limit: 4
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "album_id"
+    t.string   "url"
+    t.string   "thumb_url"
+    t.integer  "thumb_height"
+    t.integer  "thumb_width"
+    t.string   "medium_url"
+    t.integer  "medium_height"
+    t.integer  "medium_width"
+    t.string   "large_url"
+    t.integer  "large_height"
+    t.integer  "large_width"
   end
 
 end
