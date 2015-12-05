@@ -36,3 +36,4 @@ build/
 
 .env
 *.sqlite3
+.idea
