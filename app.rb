@@ -29,7 +29,7 @@ end
 # view one
 get '/albums/:id' do
 	album = Album.includes(:images, :poster_image).find(params[:id])
-	return status 404 if @album.nil?
+	return status 404 if album.nil?
 	album.to_json(:include => [:images, :poster_image])
 end
 
