@@ -35,9 +35,12 @@ end
 
 # create
 post '/albums' do
-	# json = JSON.parse(request.body.read)
-	# album = Album.new(json['album'])
 	album = Album.new(params['album'])
+
+  if album.poster_image.blank? && album.images.any?
+  	album.poster_image = album.images.first
+  end
+
 	album.save!
 	album.to_json(:include => [:images, :poster_image])
 end
