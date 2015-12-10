@@ -5,6 +5,6 @@ class Album < ActiveRecord::Base
   accepts_nested_attributes_for :images
 
   def url
-  	"/albums/#{self.id}/"
+  	"/albums/#{self.id}"
   end
 end

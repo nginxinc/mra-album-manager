@@ -26,13 +26,6 @@ get '/albums' do
 	albums = Album.includes(:poster_image).all.to_json(:include => :poster_image, :methods => :url)
 end
 
-# view one
-get '/albums/:id' do
-	album = Album.includes(:images, :poster_image).find(params[:id])
-	return status 404 if album.nil?
-	album.to_json(:include => [:images, :poster_image])
-end
-
 # create
 post '/albums' do
 	album = Album.new(params['album'])
@@ -42,6 +35,13 @@ post '/albums' do
   end
 
 	album.save!
+	album.to_json(:include => [:images, :poster_image])
+end
+
+# view one
+get '/albums/:id' do
+	album = Album.includes(:images, :poster_image).find(params[:id])
+	return status 404 if album.nil?
 	album.to_json(:include => [:images, :poster_image])
 end
 
