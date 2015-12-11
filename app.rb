@@ -51,7 +51,7 @@ put '/albums/:id' do
 	return status 404 if album.nil?
 	album.update(params['album'])
 	album.save!
-	album.to_json
+	album.to_json(:include => [:images, :poster_image])
 end
 
 delete '/albums/:id' do
