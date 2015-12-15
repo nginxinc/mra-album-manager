@@ -77,7 +77,7 @@ end
 post '/images' do
 	image = Image.new(params['image'])
 	image.save!
-	status 201
+  image.to_json
 end
 
 # update
@@ -86,7 +86,7 @@ put '/images/:id' do
 	return status 404 if image.nil?
 	image.update(params['image'])
 	image.save!
-	status 202
+  image.to_json
 end
 
 delete '/images/:id' do
