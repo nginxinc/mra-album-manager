@@ -24,6 +24,13 @@ helpers do
 									 .where(id: params[:id], user_id: user_id)
 									 .take || halt(404)
 	end
+
+  def image
+		@image ||= Image
+									 .joins(:album)
+									 .where(id: params[:id], :albums => {:user_id => user_id})
+									 .take || halt(404)
+	end
 end
 
 before do
@@ -78,12 +85,16 @@ end
 
 # list all
 get '/images' do
-	Image.all.to_json
+	images = Image.joins(:album).where(:albums => {:user_id => user_id})
+  images.to_json
 end
 
 # create
 post '/images' do
 	image = Image.new(params['image'])
+
+  halt 401 if image.album.user_id != user_id
+
 	image.save!
 
 	status 201
@@ -92,16 +103,15 @@ end
 
 # view one
 get '/images/:id' do
-	image = Image.find(params[:id])
-	halt 404 if image.nil?
 	image.to_json
 end
 
 # update
 put '/images/:id' do
-	image = Image.find(params[:id])
-	halt 404 if image.nil?
 	image.update(params['image'])
+
+	halt 401 if image.album.user_id != user_id
+
 	image.save!
 
 	status 202
@@ -109,8 +119,6 @@ put '/images/:id' do
 end
 
 delete '/images/:id' do
-	image = Image.find(params[:id])
-	halt 404 if image.nil?
 	image.delete!
 	status 202
 end
