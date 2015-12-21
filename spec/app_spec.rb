@@ -1,14 +1,12 @@
 require 'spec_helper.rb'
 
 describe 'User manager' do
-  include Rack::Test::Methods
-
-  def app
-    Sinatra::Application
+  def a_user_id
+    'a_user_id'
   end
 
-  def user_id
-    'this-is-my-uuid'
+  def a_different_user_id
+    'a_different_user_id'
   end
 
   it 'returns a 401 if no user id is passed' do
@@ -18,7 +16,7 @@ describe 'User manager' do
   end
 
   it 'is up' do
-    get '/', nil, {'HTTP_AUTH_ID' => user_id}
+    get '/', nil, {'HTTP_AUTH_ID' => a_user_id}
 
     expect(last_response.ok?)
     expect(last_response.body).to include('Sinatra is up!')
