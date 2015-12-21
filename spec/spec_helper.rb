@@ -32,6 +32,7 @@ end
 # For RSpec 2.x
 
 RSpec.configure do |config|
+  #Sinatra configuration
   config.include RSpecMixin
 
   # rspec-expectations config goes here. You can use an alternate
