@@ -20,6 +20,10 @@
 require 'rack/test'
 require 'rspec'
 
+require 'factory_girl'
+require 'factories'
+require 'database_cleaner'
+
 ENV['RACK_ENV'] = 'test'
 
 require File.expand_path '../../app.rb', __FILE__
@@ -34,6 +38,18 @@ end
 RSpec.configure do |config|
   #Sinatra configuration
   config.include RSpecMixin
+
+  #FactoryGirl configuration
+  config.include FactoryGirl::Syntax::Methods
+
+  config.before(:suite) do
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
+  end
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

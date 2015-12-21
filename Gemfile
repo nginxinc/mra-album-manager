@@ -11,6 +11,8 @@ group :development, :test do
 end
 
 group :test do
+  gem 'database_cleaner'
+  gem 'factory_girl', '~> 4.0'
   gem 'rspec'
 end
  

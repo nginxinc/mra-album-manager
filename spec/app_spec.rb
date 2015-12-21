@@ -45,9 +45,7 @@ describe 'User manager' do
   end
 
   it 'can get an album' do
-    album = Album.new
-    album.user_id = a_user_id
-    album.save!
+    album = create(:album, user_id: a_user_id)
 
     get "/albums/#{album.id}", nil, auth_headers(a_user_id)
 
