@@ -5,13 +5,17 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require 'json'
+require 'better_errors'
 
 require './models/album.rb'
 require './models/image.rb'
 
 set :bind, '0.0.0.0'
-set :dump_errors, true
-set :show_exceptions, true
+
+configure :development do
+	use BetterErrors::Middleware
+	BetterErrors.application_root = __dir__
+end
 
 helpers do
   def user_id
@@ -96,6 +100,8 @@ post '/images' do
   halt 401 if image.album.user_id != user_id
 
 	image.save!
+
+  print image
 
 	status 201
   image.to_json
