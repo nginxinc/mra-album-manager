@@ -28,46 +28,8 @@ describe 'User manager' do
     expect(last_response.body).to include('Sinatra is up!')
   end
 
-  it 'can create an album' do
-    params = {
-        album: {
-            name: 'name'
-        }
-    }
-
-    post '/albums', params, auth_headers(a_user_id)
-
-    expect(last_response).to be_created
-
-    album = JSON.parse(last_response.body)
-
-    expect(album['user_id']).to eq(a_user_id)
-    expect(album['name']).to eq('name')
-  end
-
-  it 'can get an album' do
-    album = create(:album, user_id: a_user_id)
-
-    get "/albums/#{album.id}", nil, auth_headers(a_user_id)
-
-    expect(last_response).to be_ok
-
-    parsed_body = JSON.parse(last_response.body)
-
-    expect(parsed_body['id']).to eq(album.id)
-    expect(parsed_body['user_id']).to eq(a_user_id)
-  end
-
-  it "cannot get another user's album" do
-    album = create(:album, user_id: a_user_id)
-
-    get "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
-
-    expect(last_response).to be_not_found
-  end
-
   it 'can list the albums' do
-    albums = create_list(:album, 5, user_id: a_user_id)
+    albums = create_list(:album_with_images, 5, user_id: a_user_id)
 
     get '/albums', nil, auth_headers(a_user_id)
 
@@ -76,6 +38,11 @@ describe 'User manager' do
     parsed_body = JSON.parse(last_response.body)
 
     expect(parsed_body.length).to eq 5
+
+    parsed_body.each do |album|
+      expect(album).to have_key('poster_image')
+      expect(album['url']).to eq("/albums/#{album['id']}")
+    end
   end
 
   it "cannot list another user's albums" do
@@ -88,6 +55,76 @@ describe 'User manager' do
     parsed_body = JSON.parse(last_response.body)
 
     expect(parsed_body).to be_empty
+  end
+
+  it 'can get an album' do
+    album = create(:album_with_images, user_id: a_user_id)
+
+    get "/albums/#{album.id}", nil, auth_headers(a_user_id)
+
+    expect(last_response).to be_ok
+
+    parsed_body = JSON.parse(last_response.body)
+
+    expect(parsed_body['id']).to eq(album.id)
+    expect(parsed_body['user_id']).to eq(a_user_id)
+    expect(parsed_body).to have_key('poster_image')
+    expect(parsed_body['images'].length).to eq(5)
+  end
+
+  it "cannot get another user's album" do
+    album = create(:album, user_id: a_user_id)
+
+    get "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_not_found
+  end
+
+  it 'can create an album' do
+    album_name = 'name'
+
+    params = {
+        album: {
+            name: album_name
+        }
+    }
+
+    post '/albums', params, auth_headers(a_user_id)
+
+    expect(last_response).to be_created
+
+    parsed_body = JSON.parse(last_response.body)
+
+    expect(parsed_body['user_id']).to eq(a_user_id)
+    expect(parsed_body['name']).to eq(album_name)
+  end
+
+  it 'can update an album' do
+    album = create(:album_with_images, user_id: a_user_id)
+
+    new_poster_image_id = album.images.last.id
+
+    params = {
+        album: {
+            poster_image_id: new_poster_image_id
+        }
+    }
+
+    put "/albums/#{album.id}", params, auth_headers(a_user_id)
+
+    expect(last_response).to be_accepted
+
+    parsed_body = JSON.parse(last_response.body)
+
+    expect(parsed_body['poster_image_id']).to eq(new_poster_image_id)
+  end
+
+  it "cannot update another user's album" do
+    album = create(:album_with_images, user_id: a_user_id)
+
+    put "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_not_found
   end
 
   it 'can add an image to an album' do

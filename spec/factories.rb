@@ -7,7 +7,9 @@ FactoryGirl.define do
       end
 
       after(:create) do |album, evaluator|
-        create_list(:image, evaluator.images_count, album: album)
+        images = create_list(:image, evaluator.images_count, album: album)
+        album.poster_image = images.first
+        album.save!
       end
     end
   end

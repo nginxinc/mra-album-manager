@@ -101,8 +101,6 @@ post '/images' do
 
 	image.save!
 
-  print image
-
 	status 201
   image.to_json
 end
