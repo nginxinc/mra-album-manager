@@ -16,3 +16,6 @@ shell:
 
 push:
 	docker push $(name)
+
+test:
+	docker run -it --env-file=.env ${ports} $(volumes) $(name) bundle exec rspec
