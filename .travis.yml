@@ -1,12 +1,17 @@
 sudo: required
-
 language: ruby
-
 services:
-  - docker
-
+- docker
 before_install:
-  - make build
-
+- make build
 script:
-  - make test
+- make test
+deploy:
+  provider: deis
+  controller: deis.ngra.ps.nginxlab.com
+  app: album-manager
+  username: benhorowitz
+  password:
+    secure: BBYJeM1qX0zl3nTfV+N0xjEISVSHWPXHrcjvXI/NbYz3PXrTbh8kdFAyLZGxo6g36AgcTLTZjfH/XjuHhGi8EG6Hoy5b0Et8+lxOuhPwYBh6CRbawvm3uljrM7qMW7AJZsc4meFvOvWzb3OkMT2ZcxxEDd6laiAWdiY/WnLz4TzgMNPs7rvjZNNPUflGr+wNdsnJ3Rrfx3TyYhSHDemLx8uhbuOkKROYgsw8GRm+pqmgIIyMpcmTjodMcaN4qUid3oybRTJWaVvqgnnEpLbp7Roi6wql4p6wjuLYsLN3iMv9tHYSFg0Iq9tgq9hxfvxw28D/LyhIOqdsMBUQGZmOx5pX0fcMH9/NldpZGNqeWY26PXB2kL6yB3WbM4MKRO1vbuWXusPbt1A3xW9rYlmBvwD99jfHmCMj88HS2ThyeXSSSPNka8CnUYhot9iaEU7WcsJpUu5R0eAYw3msOyp+tya7JnEKWw/LJMORKJxWU7D7Naxmd45O95KP2uXTHVhG1GE0uoqkIpo9b41B0WF8kve/TWJIXe4q8LrZQIcTHN7Fe35o4rvo7PJXE9ugVnlWrzF6WZ+n0yXjSuhi6X58JupT+m8fzPlqQJQSlvcLTygSPRb8Vdw3BgIMCyZQHNA5ZWV50u77AAjkKr0ANXUgCLUsQoMBVrrh4Db0XlBVe5I=
+  on:
+    repo: nginxinc/ngra-album-manager
