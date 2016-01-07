@@ -18,4 +18,7 @@ push:
 	docker push $(name)
 
 test:
+	docker run -it ${ports} $(name) bundle exec rake db:test:prepare && bundle exec rspec
+
+test-v:
 	docker run -it ${ports} $(volumes) $(name) bundle exec rake db:test:prepare && bundle exec rspec
