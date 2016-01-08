@@ -10,6 +10,10 @@ before_install:
 script:
 - make test
 
+before_deploy:
+#workaround for https://github.com/travis-ci/dpl/issues/240
+- export PATH="$PATH:$HOME/.local/bin"
+
 deploy:
   provider: deis
   controller: deis.ngra.ps.nginxlab.com
