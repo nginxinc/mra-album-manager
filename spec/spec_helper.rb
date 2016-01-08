@@ -33,6 +33,9 @@ module RSpecMixin
   def app() Sinatra::Application end
 end
 
+#load the schema into sqlite
+load "#{settings.root}/db/schema.rb"
+
 # For RSpec 2.x
 
 RSpec.configure do |config|
