@@ -15,8 +15,7 @@ deploy:
   controller: deis.ngra.ps.nginxlab.com
   app: album-manager
   cli_version: 1.11.2
-  username: benhorowitz
-  password:
-    secure: CKQDxg0fqdqwnj2qkv9uA9xocsfEpMzvtSrr1hTNGPpbCl4zmNgmAlMIq7p9dqPwpNVc0Dpvm/YltH6xOsNaXOWmYUTp9zyl8NO9vRGYp+tYeu+bRMWwy215onXZMUIz3fBpX58GI2dsy5PEts4jJFArULH79/MzF2pDGztp98GHmpqGcB7UKv0Q28PgBx9idHD9fA+qLVXb1T5YA8dW08TkUX46lA+0u8effw4Ebc1hupDIzPpaLSauI6cCL4V4k3ae4vr4gFHn4HLyWezJWpeDpXuOT5a0kHEkK1NVirXobEuXb6JbQNCwmG+cc6aB7TqXOw4cMIxykZvFOcqItY4/dTYlYt/7bIVAb4FYoi96dB0JuUML9jv7Ht3YRWIch7egBcuC3pq0KFn2zTa5Zpp2FFTtGVOxEnCS7hxpDtx7EDXJtarmqMi4pIlxwlAUTOKSDrPnuQfbxm5ZI0ISNMrOCavKHuUiH2lQnoU6AyvAXbCyU6Z3ybwDTuexgfDsEXDXYPCuNxM1JOW3smOt/uh4QlGbRCzgVQYFKJpFArdGdzTiYN2FWPNj3RjJSws6i1a3fOaOKWdmBfciqHjoolMvV7pv1/PcdfS1hBPCT0+ciOhxdzZHkQQ07lgVzlIZ1ro480tm7eulr5I4Wk7zF7xw3wscdH30D4ut801dTG8=
+  username: deploymentuser
+  password: deployment
   on:
     repo: nginxinc/ngra-album-manager
