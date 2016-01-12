@@ -12,8 +12,7 @@ script:
 
 deploy:
   provider: deis
-  edge:
-    branch: debug-deis
+  edge: true
   verbose: true
   controller: deis.ngra.ps.nginxlab.com
   app: album-manager
