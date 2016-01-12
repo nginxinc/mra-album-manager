@@ -12,6 +12,9 @@ script:
 
 deploy:
   provider: deis
+  edge:
+    branch: debug-deis
+  verbose: true
   controller: deis.ngra.ps.nginxlab.com
   app: album-manager
   cli_version: 1.11.2
