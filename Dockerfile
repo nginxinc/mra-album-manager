@@ -5,9 +5,10 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/a
 
 ENV NGINX_VERSION 1.9.9-1~jessie
 
-RUN apt-get update && \
-    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    ca-certificates \
+    lsb-release \
+    nginx=${NGINX_VERSION}
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
@@ -19,6 +20,8 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir /tmp/sockets
 
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='album-manager' sh ./amplify_install.sh
+
 EXPOSE 80 443
 
-CMD unicorn -c /usr/src/app/unicorn.rb -D && nginx
+CMD unicorn -c /usr/src/app/unicorn.rb -D && service amplify-agent start && nginx
