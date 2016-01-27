@@ -40,4 +40,4 @@ build/
 
 .dpl/
 deis
-log
+log/*.log
