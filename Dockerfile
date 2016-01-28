@@ -22,6 +22,6 @@ RUN mkdir /tmp/sockets
 
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='album-manager' sh ./amplify_install.sh
 
-EXPOSE 80 443
+EXPOSE 80
 
 CMD unicorn -c /usr/src/app/unicorn.rb -D && service amplify-agent start && nginx
