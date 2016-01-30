@@ -1,4 +1,4 @@
-name = ngrefarch/ngra-album-manager
+name = ngrefarch/album-manager
 volumes = -v $(CURDIR):/usr/src/app
 ports = -p 80:80
 
