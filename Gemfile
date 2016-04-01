@@ -5,6 +5,7 @@ gem 'activerecord'
 gem 'sinatra-activerecord'
 gem 'sinatra-reloader'
 gem 'json'
+gem 'newrelic_rpm'
  
 group :development, :test do
   gem 'better_errors'

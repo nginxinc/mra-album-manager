@@ -33,6 +33,7 @@ GEM
     minitest (5.8.3)
     multi_json (1.11.2)
     mysql2 (0.4.2)
+    newrelic_rpm (3.15.1.316)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -88,6 +89,7 @@ DEPENDENCIES
   factory_girl (~> 4.0)
   json
   mysql2
+  newrelic_rpm
   rspec
   sinatra
   sinatra-activerecord
@@ -96,4 +98,4 @@ DEPENDENCIES
   unicorn
 
 BUNDLED WITH
-   1.10.6
+   1.11.2
