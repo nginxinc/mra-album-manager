@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
 	libssl-dev \
 	make \
 	wget \
+	curl \
+	vim \
 	apt-transport-https \
 	ca-certificates \
 	curl \
@@ -47,7 +49,7 @@ RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt &&
 	printf "deb https://plus-pkgs.nginx.com/debian `lsb_release -cs` nginx-plus\n" >/etc/apt/sources.list.d/nginx-plus.list
 
 #Install NGINX Plus
-RUN apt-get update && apt-get install -y apt-transport-https nginx-plus-extras
+RUN apt-get update && apt-get install -y nginx-plus-extras
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
