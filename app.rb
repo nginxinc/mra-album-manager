@@ -2,6 +2,7 @@
 
 require 'sinatra'
 require 'sinatra/base'
+require 'newrelic_rpm'
 require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require 'json'
