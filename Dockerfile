@@ -62,7 +62,7 @@ COPY ./nginx-ssl.conf /etc/nginx/
 
 RUN mkdir /tmp/sockets
 
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='album-manager' sh ./amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-album-manager' sh ./amplify_install.sh
 
 EXPOSE 80
 
