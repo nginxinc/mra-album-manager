@@ -39,7 +39,7 @@ helpers do
 end
 
 before do
-	halt 401, 'Auth-ID header is required' if user_id.nil?
+	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
 end
 
