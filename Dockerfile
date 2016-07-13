@@ -14,7 +14,6 @@ COPY . /usr/src/app
 
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
-	jq \
 	libffi-dev \
 	libssl-dev \
 	make \
@@ -28,20 +27,25 @@ RUN apt-get update && apt-get install -y \
 	libsqlite3-0 \
 	libxml2 \
 	lsb-release \
+	unzip \
 	--no-install-recommends && rm -r /var/lib/apt/lists/*
 
-# Download certificate and key from the the vault and copy to the build context
-ARG VAULT_TOKEN
-RUN mkdir -p /etc/ssl/nginx
-RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.crt | jq -r .data.value > /etc/ssl/nginx/nginx-repo.crt
-RUN wget -q -O - --header="X-Vault-Token: $VAULT_TOKEN" http://vault.ngra.ps.nginxlab.com:8200/v1/secret/nginx-repo.key | jq -r .data.value > /etc/ssl/nginx/nginx-repo.key
+# Install vault client
+RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
+	  unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip
 
-# Get other files required for installation
-COPY ./certificate.pem /etc/ssl/nginx/
-COPY ./key.pem /etc/ssl/nginx/
-COPY ./dhparam.pem /etc/ssl/nginx/
-# COPY ./letsencrypt.etc /etc/letsencrypt
-# COPY /letsencrypt /usr/local/letsencrypt
+# Download certificate and key from the the vault and copy to the build context
+ENV VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \
+    VAULT_ADDR=http://vault.ngra.ps.nginxlab.com:8200
+
+RUN mkdir -p /etc/ssl/nginx && \
+	  vault token-renew && \
+	  vault read -field=value secret/nginx-repo.crt > /etc/ssl/nginx/nginx-repo.crt && \
+	  vault read -field=value secret/nginx-repo.key > /etc/ssl/nginx/nginx-repo.key && \
+    vault read -field=value secret/ssl/csr.pem > /etc/ssl/nginx/csr.pem && \
+    vault read -field=value secret/ssl/certificate.pem > /etc/ssl/nginx/certificate.pem && \
+    vault read -field=value secret/ssl/key.pem > /etc/ssl/nginx/key.pem && \
+    vault read -field=value secret/ssl/dhparam.pem > /etc/ssl/nginx/dhparam.pem
 
 RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt && \
 	wget -q -O - http://nginx.org/keys/nginx_signing.key | apt-key add - && \
@@ -62,8 +66,8 @@ COPY ./nginx-ssl.conf /etc/nginx/
 
 RUN mkdir /tmp/sockets
 
-RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='mesos-album-manager' sh ./amplify_install.sh
+RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='album-manager' sh ./amplify_install.sh
 
-EXPOSE 80
+EXPOSE 443
 
 CMD ["./start.sh"]
