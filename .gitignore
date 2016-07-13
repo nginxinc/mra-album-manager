@@ -42,3 +42,4 @@ build/
 deis
 log/*.log
 .rbenv-gemsets
+*.pem
