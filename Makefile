@@ -22,4 +22,7 @@ push:
 	docker push $(tag)
 
 test:
-	# Tests not yet implemented
+	docker run -it $(tag) bundle exec rspec
+
+test-v:
+	docker run -it $(volumes) $(tag) bundle exec rspec
