@@ -1,17 +1,5 @@
 FROM ruby:2.2.3
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-RUN bundle install
-
-COPY . /usr/src/app
-
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
 	libffi-dev \
@@ -63,10 +51,22 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY ./nginx-gz.conf /etc/nginx/
 COPY ./nginx-ssl.conf /etc/nginx/
 
-
 RUN mkdir /tmp/sockets
 
+COPY amplify_install.sh ./
 RUN API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' HOSTNAME='album-manager' sh ./amplify_install.sh
+
+# throw errors if Gemfile has been modified since Gemfile.lock
+RUN bundle config --global frozen 1
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY Gemfile /usr/src/app/
+COPY Gemfile.lock /usr/src/app/
+RUN bundle install
+
+COPY . /usr/src/app
 
 EXPOSE 443
 
