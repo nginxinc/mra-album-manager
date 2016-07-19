@@ -15,17 +15,17 @@ describe 'User manager' do
     return {'HTTP_AUTH_ID' => user_id}
   end
 
-  it 'returns a 401 if no user id is passed' do
+  it 'passes a healthcheck' do
     get '/'
-
-    expect(last_response).to be_unauthorized
-  end
-
-  it 'is up' do
-    get '/', nil, auth_headers(a_user_id)
 
     expect(last_response).to be_ok
     expect(last_response.body).to include('Sinatra is up!')
+  end
+
+  it 'returns a 401 if no user id is passed' do
+    get '/albums'
+
+    expect(last_response).to be_unauthorized
   end
 
   it 'can list the albums' do

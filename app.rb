@@ -39,6 +39,7 @@ helpers do
 end
 
 before do
+	pass if request.path_info == "/"
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
 end
