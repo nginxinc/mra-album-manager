@@ -34,8 +34,6 @@ RUN apt-get update && apt-get install -y \
 # Install vault client
 RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
 	  unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip
-COPY ./requirements.txt /usr/src/app/
-RUN pip install -r requirements.txt
 
 # Download certificate and key from the the vault and copy to the build context
 ENV VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \

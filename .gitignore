@@ -43,3 +43,7 @@ deis
 log/*.log
 .rbenv-gemsets
 *.pem
+/Dockerfile_BACKUP_10640
+/Dockerfile_BASE_10640
+/Dockerfile_LOCAL_10640
+/Dockerfile_REMOTE_10640
