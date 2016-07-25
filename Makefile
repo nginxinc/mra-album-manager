@@ -22,7 +22,7 @@ push:
 	docker push $(tag)
 
 test:
-	# Tests not yet implemented
+	docker run -it $(volumes) $(name) bundle exec rspec	
 	
 check-env:
 ifndef VAULT_TOKEN
