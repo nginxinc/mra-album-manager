@@ -1,9 +1,9 @@
 #!/bin/sh
-NGINX_PID="/var/run/nginx.pid"    # /   (root directory)
-APP="unicorn -c /usr/src/app/unicorn.rb -D"
+NGINX_PID=${NGINX_PID:-"/var/run/nginx.pid"}    # /   (root directory)
+NGINX_CONF=${NGINX_CONF:-"/etc/nginx/nginx.conf"}
+NGINX_FABRIC=${NGINX_FABRIC:="/etc/nginx/nginx-fabric.conf"}
 
-NGINX_CONF="/etc/nginx/nginx.conf";
-NGINX_FABRIC="/etc/nginx/nginx-fabric.conf";
+APP=${APP:?"Please set the APP environment variable"}
 
 if [ "$NETWORK" = "fabric" ]
 then
@@ -12,7 +12,7 @@ then
     echo fabric configuration set;
 fi
 
-$APP 
+$APP
 
 nginx -c "$NGINX_CONF" -g "pid $NGINX_PID;"
 
@@ -22,7 +22,7 @@ sleep 30
 APP_PID=`ps aux | grep $APP | grep -v grep`
 
 while [ -f "$NGINX_PID" ] &&  [ "$APP_PID" ];
-do 
+do
 	sleep 5;
 	APP_PID=`ps aux | grep $APP | grep -v grep`;
 	#echo "The python process: $PID"

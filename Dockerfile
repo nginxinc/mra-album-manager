@@ -1,17 +1,5 @@
 FROM ruby:2.2.3
 
-# throw errors if Gemfile has been modified since Gemfile.lock
-RUN bundle config --global frozen 1
-
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-COPY Gemfile /usr/src/app/
-COPY Gemfile.lock /usr/src/app/
-RUN bundle install
-
-COPY . /usr/src/app
-
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
 	jq \
@@ -73,6 +61,7 @@ RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/p
 	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-album-manager' sh ./install.sh
 
 COPY ./status.html /usr/share/nginx/html/status.html
+
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
@@ -85,6 +74,10 @@ RUN bundle install
 
 COPY . /usr/src/app
 
+RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
+		ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
+
 EXPOSE 80 443
 
+ENV APP="unicorn -c /usr/src/app/unicorn.rb -D"
 CMD ["./start.sh"]
