@@ -49,10 +49,7 @@ RUN apt-get update && apt-get install -y nginx-plus-extras
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 	ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY ./nginx-gz.conf /etc/nginx/
-COPY ./nginx-ssl.conf /etc/nginx/
-COPY ./nginx-fabric.conf /etc/nginx/
+COPY nginx /etc/nginx/
 
 RUN mkdir /tmp/sockets
 
@@ -76,6 +73,11 @@ COPY . /usr/src/app
 
 RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
 		ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
+
+# Install and run NGINX config generator
+RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
+RUN chmod +x generate_config && \
+    ./generate_config -p /etc/nginx/fabric_config.yaml > /etc/nginx/nginx-fabric.conf
 
 EXPOSE 80 443
 

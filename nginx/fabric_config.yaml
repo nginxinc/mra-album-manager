@@ -1,0 +1,5 @@
+name: album-manager
+resolver:
+  host: 198.51.100.1 198.51.100.2 198.51.100.3
+  ttl: 1s
+root: /usr/src/app/public
