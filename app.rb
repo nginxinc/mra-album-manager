@@ -85,7 +85,7 @@ put '/albums/:id' do
 end
 
 delete '/albums/:id' do
-	album.delete!
+	Album.destroy(album.id)
 	status 202
 end
 
@@ -125,6 +125,6 @@ put '/images/:id' do
 end
 
 delete '/images/:id' do
-	image.delete!
+	Image.destroy(image.id)
 	status 202
 end

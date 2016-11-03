@@ -127,6 +127,22 @@ describe 'User manager' do
     expect(last_response).to be_not_found
   end
 
+  it 'can delete an album' do
+    album = create(:album_with_images, user_id: a_user_id)
+
+    delete "/albums/#{album.id}", nil, auth_headers(a_user_id)
+
+    expect(last_response).to be_accepted
+  end
+
+  it "cannot delete another user's album" do
+    album = create(:album, user_id: a_user_id)
+
+    delete "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_not_found
+  end
+
   it 'can add an image to an album' do
     album = create(:album, user_id: a_user_id)
 
