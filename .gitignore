@@ -47,3 +47,5 @@ log/*.log
 /Dockerfile_BASE_10640
 /Dockerfile_LOCAL_10640
 /Dockerfile_REMOTE_10640
+
+nginx-plus_1.11.8-0-trusty_amd64.deb

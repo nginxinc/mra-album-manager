@@ -25,7 +25,7 @@ RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.z
 
 # Download certificate and key from the the vault and copy to the build context
 ENV VAULT_TOKEN=4b9f8249-538a-d75a-e6d3-69f5355c1751 \
-    VAULT_ADDR=http://vault.ngra.ps.nginxlab.com:8200
+    VAULT_ADDR=http://vault.mra.nginxps.com:8200
 
 RUN mkdir -p /etc/ssl/nginx && \
 	  vault token-renew && \
@@ -43,7 +43,10 @@ RUN wget -q -O /etc/ssl/nginx/CA.crt https://cs.nginx.com/static/files/CA.crt &&
 	printf "deb https://plus-pkgs.nginx.com/debian `lsb_release -cs` nginx-plus\n" >/etc/apt/sources.list.d/nginx-plus.list
 
 #Install NGINX Plus
-RUN apt-get update && apt-get install -y nginx-plus-extras
+#RUN apt-get update && apt-get install -y nginx-plus-extras
+
+COPY nginx-plus_1.11.8-0-trusty_amd64.deb /
+RUN dpkg -i /nginx-plus_1.11.8-0-trusty_amd64.deb
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
@@ -77,7 +80,7 @@ RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
 # Install and run NGINX config generator
 RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
 RUN chmod +x generate_config && \
-    ./generate_config -p /etc/nginx/fabric_config.yaml > /etc/nginx/nginx-fabric.conf
+    ./generate_config -p /etc/nginx/fabric_config.yaml -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx-fabric.conf
 
 EXPOSE 80 443
 
