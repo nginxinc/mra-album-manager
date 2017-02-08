@@ -27,11 +27,14 @@ GEM
     erubis (2.7.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
     json (1.8.3)
     kgio (2.10.0)
     minitest (5.8.3)
     multi_json (1.11.2)
+    multi_xml (0.6.0)
     mysql2 (0.4.2)
     newrelic_rpm (3.15.1.316)
     rack (1.6.4)
@@ -87,6 +90,7 @@ DEPENDENCIES
   better_errors
   database_cleaner
   factory_girl (~> 4.0)
+  httparty
   json
   mysql2
   newrelic_rpm
@@ -98,4 +102,4 @@ DEPENDENCIES
   unicorn
 
 BUNDLED WITH
-   1.11.2
+   1.14.3

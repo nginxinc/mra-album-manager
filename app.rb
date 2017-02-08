@@ -7,6 +7,7 @@ require 'sinatra/reloader'
 require 'sinatra/activerecord'
 require 'json'
 require 'better_errors'
+require 'httparty'
 
 require './models/album.rb'
 require './models/image.rb'
@@ -124,7 +125,9 @@ put '/images/:id' do
   image.to_json
 end
 
-delete '/images/:id' do
+delete '/images/:id/:uuid' do
+	response = HTTParty.delete("http://localhost/uploader/image/uploads/photos/" + params[:uuid])
+  response.to_json
 	Image.destroy(image.id)
 	status 202
 end
