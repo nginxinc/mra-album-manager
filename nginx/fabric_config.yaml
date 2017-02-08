@@ -1,5 +1,10 @@
 name: album-manager
 resolver:
   host: 198.51.100.1 198.51.100.2 198.51.100.3
-  ttl: 1s
+  ttl: 3s
 root: /usr/src/app/public
+services:
+  uploader:
+    server: marathon.mesos service=_uploader._tcp
+    expose_external: true
+    healthcheck: true
