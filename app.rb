@@ -51,6 +51,15 @@ end
 
 # list all
 get '/albums' do
+  time = Time.now
+
+  pendingAlbums = Album.where(state: 'pending')
+	for album in pendingAlbums
+		if album.created_at.to_i < (time.to_i - 900)
+      Album.destroy(album.id)
+		end
+	end
+
 	albums = Album.includes(:poster_image).where(user_id: user_id)
   albums.to_json(:include => :poster_image, :methods => :url)
 end
