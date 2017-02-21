@@ -60,6 +60,7 @@ post '/albums' do
 	album = Album.new(params['album'])
 
   album.user_id = user_id
+  album.state = 'pending'
 
   if album.poster_image.blank? && album.images.any?
   	album.poster_image = album.images.first
