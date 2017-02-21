@@ -82,10 +82,12 @@ describe 'User manager' do
 
   it 'can create an album' do
     album_name = 'name'
+    album_state = 'state'
 
     params = {
         album: {
-            name: album_name
+            name: album_name,
+            state: album_state
         }
     }
 
@@ -97,6 +99,7 @@ describe 'User manager' do
 
     expect(parsed_body['user_id']).to eq(a_user_id)
     expect(parsed_body['name']).to eq(album_name)
+    expect(parsed_body['state']).to eq(album_state)
   end
 
   it 'can update an album' do

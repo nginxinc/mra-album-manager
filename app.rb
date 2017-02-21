@@ -104,6 +104,10 @@ post '/images' do
 
 	image.save!
 
+	album = Album.find_by(id: image.album_id)
+	album.state = 'active'
+	album.save!
+
 	status 201
   image.to_json
 end
