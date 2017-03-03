@@ -43,6 +43,7 @@ GEM
     rack-test (0.6.3)
       rack (>= 1.0)
     raindrops (0.15.0)
+    rake (11.2.2)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -94,6 +95,7 @@ DEPENDENCIES
   json
   mysql2
   newrelic_rpm
+  rake
   rspec
   sinatra
   sinatra-activerecord
@@ -102,4 +104,4 @@ DEPENDENCIES
   unicorn
 
 BUNDLED WITH
-   1.14.3
+   1.14.5
