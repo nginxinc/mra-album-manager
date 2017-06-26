@@ -140,7 +140,7 @@ put '/images/:id' do
 end
 
 delete '/images/:id/:uuid' do
-	response = HTTParty.delete("http://localhost/uploader/image/uploads/photos/" + params[:uuid])
+	response = HTTParty.delete(request.env['UPLOADER_PHOTO'] + params[:uuid])
   response.to_json
 	Image.destroy(image.id)
 	status 202
