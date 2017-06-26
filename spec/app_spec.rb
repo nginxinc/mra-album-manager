@@ -2,6 +2,13 @@ require 'spec_helper.rb'
 require_relative '../models/album.rb'
 require 'pp'
 
+#
+#  app_spec.rb
+#  AlbumManager
+#
+#  Copyright © 2017 NGINX Inc. All rights reserved.
+#
+
 describe 'User manager' do
   def a_user_id
     'a_user_id'
