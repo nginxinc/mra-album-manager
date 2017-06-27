@@ -1,3 +1,10 @@
+#
+#  factories.rb
+#  AlbumManager
+#
+#  Copyright © 2017 NGINX Inc. All rights reserved.
+#
+
 FactoryGirl.define do
   factory :album do
 

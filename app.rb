@@ -12,6 +12,13 @@ require 'httparty'
 require './models/album.rb'
 require './models/image.rb'
 
+#
+#  app.rb
+#  AlbumManager
+#
+#  Copyright © 2017 NGINX Inc. All rights reserved.
+#
+
 set :bind, '0.0.0.0'
 
 configure :development do
@@ -21,7 +28,7 @@ end
 
 helpers do
   def user_id
-		@user_id ||= request.env["HTTP_AUTH_ID"]
+		@user_id ||= request.env['HTTP_AUTH_ID']
 	end
 
   def album
@@ -40,25 +47,25 @@ helpers do
 end
 
 before do
-	pass if request.path_info == "/"
+	pass if request.path_info == '/'
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
 end
 
 get '/' do
-	"Sinatra is up!"
+	'Sinatra is up!'
 end
 
 # list all
 get '/albums' do
   time = Time.now
 
-  pendingAlbums = Album.where(state: 'pending')
-	for album in pendingAlbums
+  pending_albums = Album.where(state: 'pending')
+	pending_albums.each {|album|
 		if album.created_at.to_i < (time.to_i - 900)
-      Album.destroy(album.id)
+			Album.destroy(album.id)
 		end
-	end
+	}
 
 	albums = Album.includes(:poster_image).where(user_id: user_id)
   albums.to_json(:include => :poster_image, :methods => :url)
@@ -140,7 +147,7 @@ put '/images/:id' do
 end
 
 delete '/images/:id/:uuid' do
-	response = HTTParty.delete("http://localhost/uploader/image/uploads/photos/" + params[:uuid])
+	response = HTTParty.delete(request.env['UPLOADER_PHOTO'] + params[:uuid])
   response.to_json
 	Image.destroy(image.id)
 	status 202
