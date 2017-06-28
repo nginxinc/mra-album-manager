@@ -53,10 +53,6 @@ COPY nginx /etc/nginx/
 
 RUN mkdir /tmp/sockets
 
-# Install Amplify
-RUN curl -sS -L -O  https://github.com/nginxinc/nginx-amplify-agent/raw/master/packages/install.sh && \
-	API_KEY='0202c79a3d8411fcf82b35bc3d458f7e' AMPLIFY_HOSTNAME='mesos-album-manager' sh ./install.sh
-
 COPY ./status.html /usr/share/nginx/html/status.html
 
 # throw errors if Gemfile has been modified since Gemfile.lock
