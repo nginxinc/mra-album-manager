@@ -41,13 +41,13 @@ RUN mkdir -p /etc/ssl/nginx && \
 
 # Install nginx
 ADD install-nginx.sh /usr/local/bin/
+COPY nginx /etc/nginx/
 RUN /usr/local/bin/install-nginx.sh
 
 # forward request and error logs to docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && \
 	ln -sf /dev/stderr /var/log/nginx/error.log
 
-COPY nginx /etc/nginx/
 
 RUN mkdir /tmp/sockets
 
@@ -67,11 +67,6 @@ COPY . /usr/src/app
 
 RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
 		ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
-
-# Install and run NGINX config generator
-RUN wget -q https://s3-us-west-1.amazonaws.com/fabric-model/config-generator/generate_config
-RUN chmod +x generate_config && \
-    ./generate_config -p /etc/nginx/fabric_config.yaml -t /etc/nginx/nginx-fabric.conf.j2 > /etc/nginx/nginx-fabric.conf
 
 EXPOSE 80 443
 
