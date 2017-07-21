@@ -9,3 +9,4 @@ services:
     service: service=_uploader._tcp
     expose_external: true
     healthcheck: true
+    oss_port: 12006
