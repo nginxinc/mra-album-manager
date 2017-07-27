@@ -3,6 +3,8 @@ NGINX_PID=${NGINX_PID:-"/var/run/nginx.pid"}    # /   (root directory)
 NGINX_CONF=${NGINX_CONF:-"/etc/nginx/nginx.conf"}
 NGINX_FABRIC=${NGINX_FABRIC:="/etc/nginx/nginx-fabric.conf"}
 
+rake db:migrate
+
 APP=${APP:?"Please set the APP environment variable"}
 
 if [ "$NETWORK" = "fabric" ]

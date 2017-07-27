@@ -67,8 +67,6 @@ RUN bundle install
 
 COPY . /usr/src/app
 
-RUN rake db:migrate
-
 RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
 		ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
 
