@@ -25,9 +25,11 @@ RUN apt-get update && apt-get install -y \
 	--no-install-recommends && \
 	rm -r /var/lib/apt/lists/* && \
 # Install vault client
-    wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
-    unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip && \
-    mkdir -p /etc/ssl/nginx
+
+RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
+	  unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip && \
+    . /etc/letsencrypt/vault_env.sh && \
+    mkdir -p /etc/ssl/nginx 
 
 # Install nginx
 ADD install-nginx.sh /usr/local/bin/
