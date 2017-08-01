@@ -5,6 +5,7 @@ ENV USE_NGINX_PLUS=false \
     VAULT_ADDR=http://vault.mra.nginxps.com:8200
 
 
+COPY vault_env.sh /etc/letsencrypt/
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
 	jq \
@@ -26,7 +27,7 @@ RUN apt-get update && apt-get install -y \
 	rm -r /var/lib/apt/lists/* && \
 # Install vault client
 
-RUN wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
+    wget -q https://releases.hashicorp.com/vault/0.6.0/vault_0.6.0_linux_amd64.zip && \
 	  unzip -d /usr/local/bin vault_0.6.0_linux_amd64.zip && \
     . /etc/letsencrypt/vault_env.sh && \
     mkdir -p /etc/ssl/nginx 
