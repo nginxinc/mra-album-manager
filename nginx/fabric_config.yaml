@@ -5,6 +5,8 @@ resolver:
 root: /usr/src/app/public
 services:
   uploader:
-    server: marathon.mesos service=_uploader._tcp
+    server: marathon.mesos
+    service: service=_uploader._tcp
     expose_external: true
     healthcheck: true
+    oss_port: 12006

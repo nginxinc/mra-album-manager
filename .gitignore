@@ -1,5 +1,6 @@
 *.gem
 *.rbc
+.raketasks
 /.config
 /coverage/
 /InstalledFiles
@@ -37,6 +38,7 @@ build/
 .env
 *.sqlite3
 .idea
+vault_env.sh
 
 .dpl/
 deis
