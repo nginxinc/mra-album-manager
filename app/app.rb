@@ -28,8 +28,8 @@ end
 
 helpers do
   def user_id
-		@user_id ||= request.env['HTTP_AUTH_ID']
-	end
+    @user_id ||= request.env['HTTP_AUTH_ID']
+  end
 
   def album
 		@album ||= Album

@@ -3,6 +3,7 @@ resolver:
   host: 198.51.100.1 198.51.100.2 198.51.100.3
   ttl: 3s
 root: /usr/src/app/public
+oss_extension: .oss
 services:
   uploader:
     server: marathon.mesos

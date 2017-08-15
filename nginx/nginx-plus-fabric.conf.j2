@@ -38,7 +38,7 @@ http {
 
   {% for name, service in services.iteritems() %}
   upstream {{ name }} {
-    server        {{ service.server }} {{ service.service }} resolve;
+    server        {{ service.server }} {% if service.service != '' %}{{ service.service }}{% endif %} resolve;
     zone backend  64k;
     least_time 		last_byte;
     keepalive 		300;
