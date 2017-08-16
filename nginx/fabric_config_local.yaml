@@ -1,0 +1,11 @@
+name: album-manager
+resolver:
+  host: 127.0.0.11
+  ttl: 3s
+root: /usr/src/app/public
+services:
+  uploader:
+    server: 'uploader'
+    expose_external: true
+    healthcheck: false
+    port: 84
