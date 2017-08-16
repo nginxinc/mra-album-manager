@@ -1,8 +1,8 @@
 FROM ruby:2.2.3
 
 ENV USE_NGINX_PLUS=true \
-    USE_VAULT=false \
-    USE_LOCAL=true \
+    USE_VAULT=true \
+    USE_LOCAL=false \
     APP="unicorn -c /usr/src/app/unicorn.rb -D"
 
 
