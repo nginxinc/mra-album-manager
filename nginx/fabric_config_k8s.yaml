@@ -1,0 +1,16 @@
+name: album-manager
+resolver:
+  host: kube-dns.kube-system.svc.cluster.local
+  ttl: 3s
+external_domain_name: k8s.mra.nginxps.com
+internal_domain_name: svc.cluster.local
+namespace: nginx-mra
+root: /usr/src/app/public
+oss_extension: .oss
+services:
+  uploader:
+    server: nginx-mra.svc.cluster.local
+    service: service=_https._tcp.photouploader
+    expose_external: true
+    healthcheck: true
+    oss_port: 12006
