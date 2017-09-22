@@ -1,14 +1,15 @@
 FROM ruby:2.2.3
 
 ENV USE_NGINX_PLUS=true \
-    USE_VAULT=true \
+    USE_VAULT=false \
+    APP="unicorn -c /usr/src/app/unicorn.rb -D" \
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
 # - kubernetes
-# - mesos
+# - mesos (default)
 # - local
 #    CONTAINER_ENGINE=kubernetes \
-    APP="unicorn -c /usr/src/app/unicorn.rb -D"
+
 
 
 COPY vault_env.sh /etc/letsencrypt/
