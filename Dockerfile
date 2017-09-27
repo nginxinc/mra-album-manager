@@ -2,16 +2,14 @@ FROM ruby:2.2.3
 
 ENV USE_NGINX_PLUS=true \
     USE_VAULT=false \
+    APP="unicorn -c /usr/src/app/unicorn.rb -D" \
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
 # - kubernetes
 # - mesos
 # - local
-#    CONTAINER_ENGINE=kubernetes \
-    APP="unicorn -c /usr/src/app/unicorn.rb -D"
+    CONTAINER_ENGINE=kubernetes
 
-
-COPY vault_env.sh /etc/letsencrypt/
 COPY nginx/ssl /etc/ssl/nginx/
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
