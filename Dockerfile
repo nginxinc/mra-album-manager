@@ -7,7 +7,7 @@ ENV USE_NGINX_PLUS=true \
 # - kubernetes
 # - mesos
 # - local
-    CONTAINER_ENGINE=local \
+#    CONTAINER_ENGINE=kubernetes \
     APP="unicorn -c /usr/src/app/unicorn.rb -D"
 
 
