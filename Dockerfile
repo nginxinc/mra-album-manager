@@ -1,17 +1,16 @@
 FROM ruby:2.2.3
 
+ARG CONTAINER_ENGINE
 ENV USE_NGINX_PLUS=true \
-    USE_VAULT=true \
+    USE_VAULT=false \
+    APP="unicorn -c /usr/src/app/unicorn.rb -D" \
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
 # - kubernetes
 # - mesos
 # - local
-#    CONTAINER_ENGINE=kubernetes \
-    APP="unicorn -c /usr/src/app/unicorn.rb -D"
+    CONTAINER_ENGINE=${CONTAINER_ENGINE:-kubernetes}
 
-
-COPY vault_env.sh /etc/letsencrypt/
 COPY nginx/ssl /etc/ssl/nginx/
 #Install Required packages for installing NGINX Plus
 RUN apt-get update && apt-get install -y \
@@ -39,8 +38,8 @@ COPY nginx /etc/nginx/
 COPY ./status.html /usr/share/nginx/html/status.html
 RUN /usr/local/bin/install-nginx.sh && \
 # forward request and error logs to docker log collector
-    ln -sf /dev/stdout /var/log/nginx/access.log && \
-	ln -sf /dev/stderr /var/log/nginx/error.log && \
+    ln -sf /dev/stdout /var/log/nginx/access_log && \
+	ln -sf /dev/stderr /var/log/nginx/error_log && \
 	mkdir /tmp/sockets && \
 # throw errors if Gemfile has been modified since Gemfile.lock
     bundle config --global frozen 1 && \
