@@ -146,3 +146,9 @@ In order to run the image, some environment variables must be set so that they a
 | PORT | | "3306" |
 | RACK_ENV | The environment to use for unicorn| production |
 | UPLOADER_PHOTO | The URL to use when contacting the uploader service | "http://localhost/uploader/image/uploads/photos/" |
+
+
+#### \*Disclaimer\*
+
+
+In this service, the `nginx/ssl/dhparam.pem` file is provided for ease of setup. In production environments, it is highly recommended for secure key-exchange to replace this file with your own generated DH parameter.
