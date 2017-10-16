@@ -149,7 +149,6 @@ In order to run the image, some environment variables must be set so that they a
 
 ### 6. Service Endpoints
 
-
 | Method | Endpoint | Description | Parameters |
 | ------ | -------- | ----------- | ---------- |
 | GET | / | Return empty string, 204 status code | none |
