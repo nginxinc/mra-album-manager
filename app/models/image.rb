@@ -2,6 +2,7 @@
 #  image.rb
 #  AlbumManager
 #
+# The Album ActiveRecord model
 #  Copyright © 2017 NGINX Inc. All rights reserved.
 #
 

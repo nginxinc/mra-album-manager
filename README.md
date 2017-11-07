@@ -135,7 +135,7 @@ Replace _&lt;your-image-repo-name&gt;_ and execute the command below to build th
 docker build . -t <your-image-repo-name>/photoresizer:<tag>
 ```
 
-### Runtime environment variables
+### 5. Runtime environment variables
 In order to run the image, some environment variables must be set so that they are available during runtime.
 
 | Variable Name | Description | Example Value |
@@ -146,6 +146,21 @@ In order to run the image, some environment variables must be set so that they a
 | PORT | | "3306" |
 | RACK_ENV | The environment to use for unicorn| production |
 | UPLOADER_PHOTO | The URL to use when contacting the uploader service | "http://localhost/uploader/image/uploads/photos/" |
+
+### 6. Service Endpoints
+
+| Method | Endpoint | Description | Parameters |
+| ------ | -------- | ----------- | ---------- |
+| GET | / | Return empty string, 204 status code | none |
+| POST | /users | Creates user based on body information | body - user information |
+| GET | /users/facebook/{id} | Get user by facebook ID | id - ID for user |
+| GET | /users/google/{id} | Get user by Google ID | id - ID for user |
+| GET | /users/local/{id} | Get user by local ID | id - ID for user |
+| GET | /users/email/{email} | Get user by email | email - email of user
+| POST | /users/email/auth | Authenticate user | body - user information |
+| GET | /users/{id} | Get user by user ID | id - ID for user |
+| PUT | /users/{id} | Update user by user ID | id - ID for user |
+| DELETE | /users/{id} | Delete user by user ID | id - ID for user |
 
 
 #### \*Disclaimer\*
