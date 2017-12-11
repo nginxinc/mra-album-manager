@@ -1,6 +1,6 @@
 FROM ruby:2.2.3
 
-ARG CONTAINER_ENGINE
+ARG CONTAINER_ENGINE_ARG
 ENV USE_NGINX_PLUS=true \
     USE_VAULT=false \
     APP="unicorn -c /usr/src/app/unicorn.rb -D" \
@@ -9,7 +9,7 @@ ENV USE_NGINX_PLUS=true \
 # - kubernetes
 # - mesos
 # - local
-    CONTAINER_ENGINE=${CONTAINER_ENGINE:-kubernetes}
+    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
 
 COPY nginx/ssl /etc/ssl/nginx/
 #Install Required packages for installing NGINX Plus
