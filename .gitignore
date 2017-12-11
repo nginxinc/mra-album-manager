@@ -49,4 +49,6 @@ log/*.log
 /Dockerfile_BASE_10640
 /Dockerfile_LOCAL_10640
 /Dockerfile_REMOTE_10640
+app/log/
+*.iml
 
