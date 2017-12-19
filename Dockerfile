@@ -55,4 +55,4 @@ RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
 
 EXPOSE 80 443 12001
 
-CMD ["./start.sh"]
+CMD ["/usr/src/app/start.sh"]
