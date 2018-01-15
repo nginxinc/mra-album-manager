@@ -1,0 +1,107 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activemodel (4.2.5)
+      activesupport (= 4.2.5)
+      builder (~> 3.1)
+    activerecord (4.2.5)
+      activemodel (= 4.2.5)
+      activesupport (= 4.2.5)
+      arel (~> 6.0)
+    activesupport (4.2.5)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    arel (6.0.3)
+    backports (3.6.7)
+    better_errors (2.1.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
+    builder (3.2.2)
+    coderay (1.1.0)
+    database_cleaner (1.5.1)
+    diff-lcs (1.2.5)
+    erubis (2.7.0)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    httparty (0.14.0)
+      multi_xml (>= 0.5.2)
+    i18n (0.7.0)
+    json (1.8.3)
+    kgio (2.10.0)
+    minitest (5.8.3)
+    multi_json (1.11.2)
+    multi_xml (0.6.0)
+    mysql2 (0.4.2)
+    newrelic_rpm (3.15.1.316)
+    rack (1.6.4)
+    rack-protection (1.5.3)
+      rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
+    raindrops (0.15.0)
+    rake (11.2.2)
+    rspec (3.4.0)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.1)
+    sinatra (1.4.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (>= 1.3, < 3)
+    sinatra-activerecord (2.0.9)
+      activerecord (>= 3.2)
+      sinatra (~> 1.0)
+    sinatra-contrib (1.4.6)
+      backports (>= 2.0)
+      multi_json
+      rack-protection
+      rack-test
+      sinatra (~> 1.4.0)
+      tilt (>= 1.3, < 3)
+    sinatra-reloader (1.0)
+      sinatra-contrib
+    sqlite3 (1.3.11)
+    thread_safe (0.3.5)
+    tilt (2.0.1)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
+    unicorn (5.0.1)
+      kgio (~> 2.6)
+      rack
+      raindrops (~> 0.7)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord
+  better_errors
+  database_cleaner
+  factory_girl (~> 4.0)
+  httparty
+  json
+  mysql2
+  newrelic_rpm
+  rake
+  rspec
+  sinatra
+  sinatra-activerecord
+  sinatra-reloader
+  sqlite3
+  unicorn
+
+BUNDLED WITH
+   1.14.5
