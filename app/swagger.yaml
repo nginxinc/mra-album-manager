@@ -1,0 +1,232 @@
+swagger: "2.0"
+info:
+  description: "MRA Album Manager API"
+  version: "1.0.0"
+  title: "MRA Album Manager API"
+  contact:
+    name: "Aidan Carson"
+    email: "aidan.carson@nginx.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+# basePath: "/v1"
+paths:
+  /:
+    get:
+      responses:
+        default:
+          description: "successful operation"
+  /albums:
+    get:
+      tags:
+      - "album"
+      summary: "Fetch all albums"
+      responses:
+        default:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Album"
+      x-tags:
+      - tag: "album"
+    post:
+      tags:
+      - "album"
+      summary: "Create new album"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New album object"
+        required: true
+        schema:
+          $ref: "#/definitions/Album"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "album"
+  /albums/{id}:
+    get:
+      tags:
+      - "album"
+      summary: "Fetch single album based on id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of album to be fetched"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Album"
+    put:
+      tags:
+      - "album"
+      summary: "Update existing album"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New album object"
+        required: true
+        schema:
+          $ref: "#/definitions/Album"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "album"
+    delete:
+      tags:
+      - "album"
+      summary: "Delete single album"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of album to be fetched"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "album"
+  /images:
+    get:
+      tags:
+      - "image"
+      summary: "Fetch all images"
+      responses:
+        default:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Image"
+      x-tags:
+      - tag: "image"
+    post:
+      tags:
+      - "image"
+      summary: "Create new image"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New image object"
+        required: true
+        schema:
+          $ref: "#/definitions/Image"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "image"
+  /images/{id}:
+    get:
+      tags:
+      - "image"
+      summary: "Fetch single image based on id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of image to be fetched"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Image"
+    put:
+      tags:
+      - "image"
+      summary: "Update existing image"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "New image object"
+        required: true
+        schema:
+          $ref: "#/definitions/Image"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "image"
+  /images/{id}/{uuid}:
+    delete:
+      tags:
+      - "image"
+      summary: "Delete single image based off id"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The id of image that needs to be fetched."
+        required: true
+        type: "string"
+      - name: "uuid"
+        in: "path"
+        description: "The unique identifier used to call the delete function within uploader service."
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "successful operation"
+      x-tags:
+      - tag: "album"
+definitions:
+  Album:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      description:
+        type: "string"
+      created_at:
+        type: "integer"
+      updated_at:
+        type: "integer"
+      user_id:
+        type: "string"
+      poster_image_id:
+        type: "integer"
+      state:
+        type: "string"
+  Image:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      created_at:
+        type: "integer"
+      updated_at:
+        type: "integer"
+      album_id:
+        type: "integer"
+      url:
+        type: "string"
+      thumb_url:
+        type: "string"
+      thumb_height:
+        type: "integer"
+      thumb_width:
+        type: "integer"
+      medium_url:
+        type: "string"
+      medium_height:
+        type: "integer"
+      medium_width:
+        type: "integer"
+      large_url:
+        type: "string"
+      large_height:
+        type: "integer"
+      large_width:
+        type: "integer"
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /SirNexus/album-manager/1.0.0
+schemes:
+ - https
+# Added by API Auto Mocking Plugin
+# basePath: /SirNexus/content-service/1.0.0
+# Added by API Auto Mocking Plugin
+basePath: /SirNexus/album-manager/1.0.0
