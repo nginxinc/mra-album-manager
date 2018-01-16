@@ -52,8 +52,11 @@ WORKDIR /usr/src/app
 
 RUN bundle install
 
-RUN ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
-		ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
+RUN mkdir -p /usr/src/app/log/ && \
+    touch /usr/src/app/log/unicorn.stdout.log && \
+    touch /usr/src/app/log/unicorn.stderr.log && \
+    ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
+    ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
 
 EXPOSE 80 443 12001
 
