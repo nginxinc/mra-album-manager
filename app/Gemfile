@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'sinatra'
-gem 'activerecord'
+gem 'activerecord', '~> 4.2.7.1'
 gem 'sinatra-activerecord'
 gem 'sinatra-reloader'
 gem 'json'
