@@ -211,8 +211,11 @@ end
 # Removes an image from S3 and from the database
 #
 delete '/images/:id/:uuid' do
-	response = HTTParty.delete(request.env['UPLOADER_PHOTO'] + params[:uuid])
-  response.to_json
+	header = {
+		"auth-id"  => user_id,
+	}
+	response = HTTParty.delete(ENV['UPLOADER_PHOTO'] + params[:uuid], :header => header)
+	response.to_json
 	Image.destroy(image.id)
 	status 202
 end
