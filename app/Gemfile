@@ -8,6 +8,7 @@ gem 'json'
 gem 'newrelic_rpm'
 gem 'httparty'
 gem 'rake'
+gem 'dotenv'
 
 group :development, :test do
   gem 'better_errors'
