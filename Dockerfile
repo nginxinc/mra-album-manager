@@ -1,5 +1,7 @@
 FROM ruby:2.2.3
 
+RUN useradd --create-home -s /bin/bash me
+
 ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
@@ -54,6 +56,8 @@ RUN mkdir -p /usr/src/app/log/ && \
     touch /usr/src/app/log/unicorn.stderr.log && \
     ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
     ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
+
+RUN chmod -R 777 /usr/src/app
 
 EXPOSE 80 443 12001
 
