@@ -22,7 +22,7 @@ spec:
           name: https
         env:
           - name: DATABASE_HOST
-            value: <DATABASE_HOST>
+            value: mysql.nginx-mra.svc.cluster.local
           - name: DATABASE_PASSWORD
             value: <DATABASE_PASSWORD>
           - name: DATABASE_USERNAME

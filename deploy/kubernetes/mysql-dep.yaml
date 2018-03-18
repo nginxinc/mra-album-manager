@@ -1,0 +1,34 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: nginx-mra
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-mra
+        component: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: docker.io/mysql:5.6
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+          name: http
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: <DATABASE_PASSWORD>
+          - name: MYSQL_USER
+            value: <DATABASE_USER>
+          - name: MYSQL_DATABASE
+            value: album_manager
+        volumeMounts:
+          - name: mysql-persistent-storage
+            mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
