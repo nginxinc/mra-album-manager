@@ -1,5 +1,5 @@
 {
-  "id": "oss/album-manager",
+  "id": "/album-manager",
   "instances": 1,
   "cpus": 0.5,
   "mem": 512,
@@ -24,8 +24,8 @@
       "portMappings": [
         {
           "containerPort": 443,
-          "hostPort": 12001,
-          "servicePort": 11009,
+          "hostPort": 0,
+          "servicePort": 10009,
           "protocol": "tcp",
           "name": "default"
         }
@@ -48,7 +48,8 @@
     "DATABASE_HOST": "mysql.marathon.mesos",
     "DATABASE_PASSWORD": "<DATABASE_PASSWORD>",
     "DATABASE_USERNAME": "<DATABASE_USER>",
-    "PORT": "80",
+    "NETWORK": "fabric",
+    "PORT": "3306",
     "RACK_ENV": "production",
     "UPLOADER_PHOTO": "http://localhost/uploader/image/uploads/photos/"
   }
