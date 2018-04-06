@@ -1,6 +1,7 @@
 # set path to app that will be used to configure unicorn,
 # note the trailing slash in this example
 @dir = "/usr/src/app/"
+@log = "/var/log/unicorn/"
 
 worker_processes 2
 working_directory @dir
@@ -15,5 +16,5 @@ listen "/tmp/sockets/unicorn.sock", :backlog => 64
 pid "/var/run/unicorn.pid"
 
 # Set log file paths
-stderr_path "#{@dir}log/unicorn.stderr.log"
-stdout_path "#{@dir}log/unicorn.stdout.log"
+stderr_path "#{@log}unicorn.stderr.log"
+stdout_path "#{@log}unicorn.stdout.log"
