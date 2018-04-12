@@ -1,6 +1,6 @@
 FROM ruby:2.2.3
 
-RUN useradd --create-home -s /bin/bash me
+RUN useradd --create-home -s /bin/bash album-manager
 
 ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
