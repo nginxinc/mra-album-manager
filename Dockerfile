@@ -3,6 +3,7 @@ FROM ruby:2.2.3
 ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
+ARG NETWORK_ARG
 
 # CONTAINER_ENGINE specifies the container engine to which the
 # containers will be deployed. Valid values are:
@@ -12,7 +13,8 @@ ARG USE_VAULT_ARG
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     USE_VAULT=${USE_VAULT_ARG:-false} \
     APP="unicorn -c /usr/src/app/unicorn.rb -D" \
-    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
+    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes} \
+    NETWORK=${NETWORK_ARG:-fabric}
 
 COPY nginx/ssl /etc/ssl/nginx/
 
