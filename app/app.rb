@@ -43,7 +43,8 @@ helpers do
   # Read the request HTTP_AUTH_ID parameter in to a variable and return it
   #
   def user_id
-    @user_id ||= request.env['HTTP_AUTH_ID']
+		@user_id ||= request.env['HTTP_AUTH_ID']
+		#log.info "The user_id of the user is: #{ @user_id } "
   end
 
   #
@@ -63,6 +64,13 @@ helpers do
                    .where(id: params[:id], :albums => {:user_id => user_id})
                    .take || halt(404)
 	end
+
+  #
+  # Logging, who'd a thunk
+  #
+  def log
+		@log = Logger.new(STDOUT)
+	end
 end
 
 #
@@ -73,6 +81,9 @@ before do
 	pass if request.path_info == '/'
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
+  paramsString = ""
+  params.each{|param| paramsString += "#{param} "}
+	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] } yer mom"
 end
 
 #
@@ -113,7 +124,12 @@ post '/albums' do
 	album = Album.new(params['album'])
 
   album.user_id = user_id
-  album.state = 'pending'
+  if album.name.include?("Profile Pictures") ||  album.name.include?("Cover Pictures") ||  album.name.include?("Article Pictures")
+    # These albums should never be pending, they are created at user instantiation
+    album.state = 'active'
+  else
+		album.state = 'pending'
+  end
 
   if album.poster_image.blank? && album.images.any?
   	album.poster_image = album.images.first
@@ -168,9 +184,10 @@ end
 # Creates a new Image using the data in the request body and returns the data as JSON
 #
 post '/images' do
+	log.info"This is definitely changing"
 	image = Image.new(params['image'])
 
-  halt 401 if image.album.user_id != user_id
+	halt 401 if image.album.user_id != user_id
 
 	image.save!
 
@@ -179,7 +196,7 @@ post '/images' do
 	album.save!
 
 	status 201
-  image.to_json
+	image.to_json
 end
 
 #
