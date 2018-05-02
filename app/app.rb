@@ -44,7 +44,6 @@ helpers do
   #
   def user_id
 		@user_id ||= request.env['HTTP_AUTH_ID']
-		#log.info "The user_id of the user is: #{ @user_id } "
   end
 
   #
@@ -83,7 +82,7 @@ before do
 	content_type 'application/json'
   paramsString = ""
   params.each{|param| paramsString += "#{param} "}
-	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] } yer mom"
+	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
 end
 
 #
