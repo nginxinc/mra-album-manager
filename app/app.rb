@@ -80,7 +80,11 @@ before do
 	pass if request.path_info == '/'
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
-  paramsString = ""
+	log.level = Logger::WARN
+	if ENV['DEBUG'] == true
+		log.level = Logger::DEBUG
+	end
+	paramsString = ""
   params.each{|param| paramsString += "#{param} "}
 	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
 end
