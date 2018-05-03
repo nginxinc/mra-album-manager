@@ -65,7 +65,8 @@ helpers do
 	end
 
   #
-  # Logging, who'd a thunk
+  # Create a logger object to use throught the system. It is initialized in the `before do` process
+  # with a setting of WARN unless the env var DEBUG=true has been passed
   #
   def log
 		@log = Logger.new(STDOUT)
