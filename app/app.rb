@@ -43,7 +43,7 @@ helpers do
   # Read the request HTTP_AUTH_ID parameter in to a variable and return it
   #
   def user_id
-    @user_id ||= request.env['HTTP_AUTH_ID']
+		@user_id ||= request.env['HTTP_AUTH_ID']
   end
 
   #
@@ -63,6 +63,14 @@ helpers do
                    .where(id: params[:id], :albums => {:user_id => user_id})
                    .take || halt(404)
 	end
+
+  #
+  # Create a logger object to use throught the system. It is initialized in the `before do` process
+  # with a setting of WARN unless the env var DEBUG=true has been passed
+  #
+  def log
+		@log = Logger.new(STDOUT)
+	end
 end
 
 #
@@ -73,6 +81,13 @@ before do
 	pass if request.path_info == '/'
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
+	log.level = Logger::WARN
+	if ENV['DEBUG'] == true
+		log.level = Logger::DEBUG
+	end
+	paramsString = ""
+  params.each{|param| paramsString += "#{param} "}
+	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
 end
 
 #
@@ -109,11 +124,16 @@ end
 # Create an album from the request body parameter named albums for the specified
 # user
 #
+# There are 3 albums that are created for each user (Profile, Cover and Article) and are created with an "active"
+# parameter passed in the album JSON. If this is passed, then the albums are set to active automatically
+#
 post '/albums' do
 	album = Album.new(params['album'])
 
   album.user_id = user_id
-  album.state = 'pending'
+  unless album.state == 'active'
+		album.state = 'pending'
+  end
 
   if album.poster_image.blank? && album.images.any?
   	album.poster_image = album.images.first
@@ -170,7 +190,7 @@ end
 post '/images' do
 	image = Image.new(params['image'])
 
-  halt 401 if image.album.user_id != user_id
+	halt 401 if image.album.user_id != user_id
 
 	image.save!
 
@@ -179,7 +199,7 @@ post '/images' do
 	album.save!
 
 	status 201
-  image.to_json
+	image.to_json
 end
 
 #
