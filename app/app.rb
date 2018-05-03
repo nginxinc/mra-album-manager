@@ -127,10 +127,7 @@ post '/albums' do
 	album = Album.new(params['album'])
 
   album.user_id = user_id
-  if album.name.include?("Profile Pictures") ||  album.name.include?("Cover Pictures") ||  album.name.include?("Article Pictures")
-    # These albums should never be pending, they are created at user instantiation
-    album.state = 'active'
-  else
+  unless album.state == 'active'
 		album.state = 'pending'
   end
 
