@@ -124,6 +124,9 @@ end
 # Create an album from the request body parameter named albums for the specified
 # user
 #
+# There are 3 albums that are created for each user (Profile, Cover and Article) and are created with an "active"
+# parameter passed in the album JSON. If this is passed, then the albums are set to active automatically
+#
 post '/albums' do
 	album = Album.new(params['album'])
 
