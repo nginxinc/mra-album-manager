@@ -184,7 +184,6 @@ end
 # Creates a new Image using the data in the request body and returns the data as JSON
 #
 post '/images' do
-	log.info"This is definitely changing"
 	image = Image.new(params['image'])
 
 	halt 401 if image.album.user_id != user_id
