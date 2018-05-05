@@ -2,7 +2,6 @@ FROM ruby:2.2.3
 
 RUN useradd --create-home -s /bin/bash album-manager
 
-ARG CONTAINER_ENGINE_ARG
 ARG USE_NGINX_PLUS_ARG
 ARG USE_VAULT_ARG
 
@@ -13,8 +12,7 @@ ARG USE_VAULT_ARG
 # - local
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
     USE_VAULT=${USE_VAULT_ARG:-false} \
-    APP="unicorn -c /usr/src/app/unicorn.rb -D" \
-    CONTAINER_ENGINE=${CONTAINER_ENGINE_ARG:-kubernetes}
+    APP="unicorn -c /usr/src/app/unicorn.rb -D"
 
 COPY nginx/ssl /etc/ssl/nginx/
 
