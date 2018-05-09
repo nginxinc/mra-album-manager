@@ -78,16 +78,17 @@ end
 # user_id is set from the helper method
 #
 before do
-	pass if request.path_info == '/'
-	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
 	log.level = Logger::WARN
 	if ENV['DEBUG'] == true
 		log.level = Logger::DEBUG
 	end
 	paramsString = ""
-  params.each{|param| paramsString += "#{param} "}
+	params.each{|param| paramsString += "#{param} "}
 	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
+
+	pass if (request.path_info == '/' || request.path_info.con =~ '^/public/')
+	halt 401, 'Auth-ID header is really required' if user_id.nil?
 end
 
 #
@@ -96,6 +97,17 @@ end
 #
 get '/' do
 	'Sinatra is up!'
+end
+
+#
+# Handle get requests for the path "/albums"
+# Find all pending albums in tne database and delete any older than
+# 15 minutes
+#
+# Then query for albums with a poster image and return their data as JSON
+#
+get '/public/:id' do
+  album.to_json(:include => [:images, :poster_image]).where(public: true)
 end
 
 #
@@ -166,11 +178,23 @@ put '/albums/:id' do
 end
 
 #
+# Handles a patch request to "/albums/XXX/public" where XXX is the unique ID of an album and public is a boolean
+# Updates the album with the data in the request payload
+#
+patch '/albums/:id/public' do
+	album.update(params['public'])
+	album.save!
+
+	status 202
+end
+
+#
 # Handles a delete request for "/albums?xxx" where XXX is the unique ID of an album
 # Delete the album with the specified ID
 #
 delete '/albums/:id' do
-	Album.destroy(album.id)
+  halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
+  Album.destroy(album.id)
 	status 202
 end
 

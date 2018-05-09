@@ -182,4 +182,87 @@ describe 'User manager' do
 
     expect(last_response).to be_unauthorized
   end
+
+  it "can make a user's album public" do
+    album = create(:album, user_id: a_user_id)
+
+    params = {
+        album: {
+            public: true
+        }
+    }
+
+    patch "/albums/#{album.id}/public", params, auth_headers(a_user_id)
+
+    expect(last_response).to be_ok
+  end
+
+  it "cannot make another user's album public" do
+    album = create(:album, user_id: a_user_id)
+
+    params = {
+        album: {
+            public: true
+        }
+    }
+
+    patch "/albums/#{album.id}/public", params, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_unauthorized
+  end
+
+  it "a different user can access another user's public album " do
+    album = create(:album, user_id: a_user_id)
+
+    params = {
+        album: {
+            public: true
+        }
+    }
+
+    patch "/public/#{album.id}", params, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_ok
+
+    parsed_body = JSON.parse(last_response.body)
+
+    expect(parsed_body['album_id']).to eq(album.id)
+
+  end
+
+  it "a non-user can access another user's public album" do
+    album = create(:album, user_id: a_user_id)
+
+    params = {
+        album: {
+            public: true
+        }
+    }
+
+    patch "/public/#{album.id}", params, auth_headers("")
+
+    expect(last_response).to be_ok
+
+    parsed_body = JSON.parse(last_response.body)
+
+    expect(parsed_body['album_id']).to eq(album.id)
+  end
+
+  it 'cannot delete a public album' do
+    album = create(:album_with_images, user_id: a_user_id, public: true)
+
+    delete "/albums/#{album.id}", nil, auth_headers(a_user_id)
+
+    expect(last_response).to raise_error
+  end
+
+  it "cannot delete another user's public album" do
+    album = create(:album, user_id: a_user_id, public: true)
+
+    delete "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
+
+    expect(last_response).to be_unauthorized
+  end
+
+
 end
