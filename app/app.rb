@@ -56,6 +56,15 @@ helpers do
 	end
 
   #
+  # Retrieve the album specified by tne ID
+  #
+  def public
+    @public ||= Album.includes(:images, :poster_image)
+                   .where(id: params[:id], public: true)
+                   .take || halt(404)
+  end
+
+  #
   # Retrieve the image specified by the id parameter
   #
   def image
@@ -80,14 +89,16 @@ end
 before do
 	content_type 'application/json'
 	log.level = Logger::WARN
+	log.warn "We have warning in logs"
 	if ENV['DEBUG'] == true
 		log.level = Logger::DEBUG
+    log.debug "And we have debug"
 	end
 	paramsString = ""
 	params.each{|param| paramsString += "#{param} "}
 	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
 
-	pass if (request.path_info == '/' || request.path_info.con =~ '^/public/')
+	pass if (request.path_info == '/' || request.path_info =~ /^\/public\//)
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
 end
 
@@ -96,21 +107,32 @@ end
 # This is used for health checks
 #
 get '/' do
-	'Sinatra is up!'
+	'Sinatra is up!' + "\n"
 end
 
 #
-# Handle get requests for the path "/albums"
+# Handle get requests for the path "/public"
 # Find all pending albums in tne database and delete any older than
 # 15 minutes
 #
 # Then query for albums with a poster image and return their data as JSON
 #
-get '/public/:id' do
-  album.to_json(:include => [:images, :poster_image]).where(public: true)
-end
+ get '/public/:id' do
+   public.to_json(:include => [:images, :poster_image])
+ end
 
 #
+# Handles a patch request to "/albums/XXX/public" where XXX is the unique ID of an album and public is a boolean
+# Updates the album with the data in the request payload
+#
+ patch '/albums/:id/:public' do
+   album.update(public: params['public'])
+   album.save!
+
+   status 202
+ end
+
+
 # Handle get requests for the path "/albums"
 # Find all pending albums in tne database and delete any older than
 # 15 minutes
@@ -178,22 +200,11 @@ put '/albums/:id' do
 end
 
 #
-# Handles a patch request to "/albums/XXX/public" where XXX is the unique ID of an album and public is a boolean
-# Updates the album with the data in the request payload
-#
-patch '/albums/:id/public' do
-	album.update(params['public'])
-	album.save!
-
-	status 202
-end
-
-#
 # Handles a delete request for "/albums?xxx" where XXX is the unique ID of an album
 # Delete the album with the specified ID
 #
 delete '/albums/:id' do
-  halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
+  #halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
   Album.destroy(album.id)
 	status 202
 end
