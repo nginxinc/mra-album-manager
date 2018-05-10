@@ -7,9 +7,10 @@ require 'pp'
 #  AlbumManager
 #
 #  Copyright © 2017 NGINX Inc. All rights reserved.
+#  Run the tests using the command 'bundle exec rspec'
 #
 
-describe 'User manager' do
+describe 'Album manager' do
   def a_user_id
     'a_user_id'
   end
@@ -184,76 +185,51 @@ describe 'User manager' do
   end
 
   it "can make a user's album public" do
-    album = create(:album, user_id: a_user_id)
+    album = create(:album, user_id: a_user_id, public: false)
 
-    params = {
-        album: {
-            public: true
-        }
-    }
+    patch "/albums/#{album.id}/public/true", nil, auth_headers(a_user_id)
 
-    patch "/albums/#{album.id}/public", params, auth_headers(a_user_id)
-
-    expect(last_response).to be_ok
+    expect(last_response).to be_accepted
   end
 
   it "cannot make another user's album public" do
-    album = create(:album, user_id: a_user_id)
+    album = create(:album, user_id: a_user_id, public: false)
 
-    params = {
-        album: {
-            public: true
-        }
-    }
+    patch "/albums/#{album.id}/public/true", nil, auth_headers(a_different_user_id)
 
-    patch "/albums/#{album.id}/public", params, auth_headers(a_different_user_id)
-
-    expect(last_response).to be_unauthorized
+    expect(last_response).to be_not_found
   end
 
   it "a different user can access another user's public album " do
-    album = create(:album, user_id: a_user_id)
+    album = create(:album, user_id: a_user_id, public: true)
 
-    params = {
-        album: {
-            public: true
-        }
-    }
-
-    patch "/public/#{album.id}", params, auth_headers(a_different_user_id)
+    get "/public/#{album.id}", nil, auth_headers(a_different_user_id)
 
     expect(last_response).to be_ok
 
     parsed_body = JSON.parse(last_response.body)
 
-    expect(parsed_body['album_id']).to eq(album.id)
-
+    expect(parsed_body['id']).to eq(album.id)
   end
 
   it "a non-user can access another user's public album" do
-    album = create(:album, user_id: a_user_id)
+    album = create(:album, user_id: a_user_id, public: true)
 
-    params = {
-        album: {
-            public: true
-        }
-    }
-
-    patch "/public/#{album.id}", params, auth_headers("")
+    get "/public/#{album.id}", nil, auth_headers("")
 
     expect(last_response).to be_ok
 
     parsed_body = JSON.parse(last_response.body)
 
-    expect(parsed_body['album_id']).to eq(album.id)
+    expect(parsed_body['id']).to eq(album.id)
   end
 
   it 'cannot delete a public album' do
-    album = create(:album_with_images, user_id: a_user_id, public: true)
+    album = create(:album, user_id: a_user_id, public: true)
 
     delete "/albums/#{album.id}", nil, auth_headers(a_user_id)
 
-    expect(last_response).to raise_error
+    expect(last_response).to be_method_not_allowed
   end
 
   it "cannot delete another user's public album" do
@@ -261,7 +237,7 @@ describe 'User manager' do
 
     delete "/albums/#{album.id}", nil, auth_headers(a_different_user_id)
 
-    expect(last_response).to be_unauthorized
+    expect(last_response).to be_not_found
   end
 
 

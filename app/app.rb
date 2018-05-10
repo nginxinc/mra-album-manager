@@ -78,7 +78,7 @@ helpers do
   # with a setting of WARN unless the env var DEBUG=true has been passed
   #
   def log
-		@log = Logger.new(STDOUT)
+		@log = Logger.new('log/album-manager.log')
 	end
 end
 
@@ -89,14 +89,12 @@ end
 before do
 	content_type 'application/json'
 	log.level = Logger::WARN
-	log.warn "We have warning in logs"
-	if ENV['DEBUG'] == true
+	if ENV['DEBUG'] == 'true'
 		log.level = Logger::DEBUG
-    log.debug "And we have debug"
 	end
 	paramsString = ""
 	params.each{|param| paramsString += "#{param} "}
-	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
+	log.debug("The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }")
 
 	pass if (request.path_info == '/' || request.path_info =~ /^\/public\//)
 	halt 401, 'Auth-ID header is really required' if user_id.nil?
@@ -122,11 +120,11 @@ end
  end
 
 #
-# Handles a patch request to "/albums/XXX/public" where XXX is the unique ID of an album and public is a boolean
+# Handles a patch request to "/albums/XXX/public/boolean" where XXX is the unique ID of an album and public/boolean
 # Updates the album with the data in the request payload
 #
- patch '/albums/:id/:public' do
-   album.update(public: params['public'])
+ patch '/albums/:id/public/:public' do
+   album.update(public: params[:public])
    album.save!
 
    status 202
@@ -204,7 +202,7 @@ end
 # Delete the album with the specified ID
 #
 delete '/albums/:id' do
-  #halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
+  halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
   Album.destroy(album.id)
 	status 202
 end
