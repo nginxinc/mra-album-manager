@@ -124,6 +124,7 @@ In order to run the image, some environment variables must be set so that they a
 | DATABASE_USERNAME |                                         | root                                            |
 | PORT              | Database port                           | 3307                                            |
 | UPLOADER_PHOTO    | Host of the uploader to delete an image | http://localhost/uploader/image/uploads/photos/ |
+| DEBUG             | To get more descriptive logging         | true                                            |
 
 ### 6. Service Endpoints
 
@@ -134,7 +135,9 @@ In order to run the image, some environment variables must be set so that they a
 | POST   | /albums             | Create new album            | body - album information                        |
 | GET    | /albums/{id}        | Fetch an album by id        | id - id for album                               |
 | PUT    | /albums/{id}        | Update existing album       | id - id for album                               |
+| PATCH  | /albums/{id}/public/{boolean}| Update existing album to make it public| id - id for album           |
 | DELETE | /albums/{id}        | Delete an album by id       | id - id of album                                |
+| GET    | /public/{id}        | Fetch a public album by id  | id - id of album                                |
 | GET    | /images             | Fetch all images            |                                                 |
 | POST   | /images             | Create new image            | body - image information                        |
 | GET    | /images/{id}        | Fetch an image by id        | id - id for user                                |
