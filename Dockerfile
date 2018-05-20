@@ -11,8 +11,7 @@ ARG USE_VAULT_ARG
 # - mesos
 # - local
 ENV USE_NGINX_PLUS=${USE_NGINX_PLUS_ARG:-true} \
-    USE_VAULT=${USE_VAULT_ARG:-false} \
-    APP="unicorn -c /usr/src/app/unicorn.rb -D"
+    USE_VAULT=${USE_VAULT_ARG:-false}
 
 COPY nginx/ssl /etc/ssl/nginx/
 
