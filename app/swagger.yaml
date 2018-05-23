@@ -1,232 +1,249 @@
-swagger: "2.0"
+openapi: 3.0.0
+servers:
+  - url: /v1
 info:
-  description: "MRA Album Manager API"
-  version: "1.0.0"
-  title: "MRA Album Manager API"
+  description: MRA Album Manager API
+  version: "1.0.0-oas3"
+  title: MRA Album Manager API
   contact:
-    name: "Aidan Carson"
-    email: "aidan.carson@nginx.com"
+    name: Aidan Carson
+    email: aidan.carson@nginx.com
   license:
-    name: "Apache 2.0"
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-# basePath: "/v1"
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 paths:
   /:
     get:
       responses:
         default:
-          description: "successful operation"
+          description: successful operation
   /albums:
     get:
       tags:
-      - "album"
-      summary: "Fetch all albums"
+        - album
+      summary: Fetch all albums
       responses:
         default:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Album"
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Album'
       x-tags:
-      - tag: "album"
+        - tag: album
     post:
       tags:
-      - "album"
-      summary: "Create new album"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "New album object"
-        required: true
-        schema:
-          $ref: "#/definitions/Album"
+        - album
+      summary: Create new album
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "album"
-  /albums/{id}:
+        - tag: album
+      requestBody:
+        $ref: '#/components/requestBodies/Album'
+  '/albums/{id}':
     get:
       tags:
-      - "album"
-      summary: "Fetch single album based on id"
+        - album
+      summary: Fetch single album based on id
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The id of album to be fetched"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
+        - name: id
+          in: path
+          description: The id of album to be fetched
+          required: true
           schema:
-            $ref: "#/definitions/Album"
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Album'
     put:
       tags:
-      - "album"
-      summary: "Update existing album"
+        - album
+      summary: Update existing album
       parameters:
-      - in: "body"
-        name: "body"
-        description: "New album object"
-        required: true
-        schema:
-          $ref: "#/definitions/Album"
+        - name: id
+          in: path
+          description: The id of album to be fetched
+          required: true
+          schema:
+            type: string
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "album"
+        - tag: album
+      requestBody:
+        $ref: '#/components/requestBodies/Album'
     delete:
       tags:
-      - "album"
-      summary: "Delete single album"
+        - album
+      summary: Delete single album
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The id of album to be fetched"
-        required: true
-        type: "string"
+        - name: id
+          in: path
+          description: The id of album to be fetched
+          required: true
+          schema:
+            type: string
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "album"
+        - tag: album
   /images:
     get:
       tags:
-      - "image"
-      summary: "Fetch all images"
+        - image
+      summary: Fetch all images
       responses:
         default:
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/Image"
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Image'
       x-tags:
-      - tag: "image"
+        - tag: image
     post:
       tags:
-      - "image"
-      summary: "Create new image"
-      parameters:
-      - in: "body"
-        name: "body"
-        description: "New image object"
-        required: true
-        schema:
-          $ref: "#/definitions/Image"
+        - image
+      summary: Create new image
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "image"
-  /images/{id}:
+        - tag: image
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+  '/images/{id}':
     get:
       tags:
-      - "image"
-      summary: "Fetch single image based on id"
+        - image
+      summary: Fetch single image based on id
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The id of image to be fetched"
-        required: true
-        type: "string"
-      responses:
-        200:
-          description: "successful operation"
+        - name: id
+          in: path
+          description: The id of image to be fetched
+          required: true
           schema:
-            $ref: "#/definitions/Image"
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Image'
     put:
       tags:
-      - "image"
-      summary: "Update existing image"
+        - image
+      summary: Update existing image
       parameters:
-      - in: "body"
-        name: "body"
-        description: "New image object"
-        required: true
-        schema:
-          $ref: "#/definitions/Image"
+        - name: id
+          in: path
+          description: The id of image to be fetched
+          required: true
+          schema:
+            type: string
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "image"
-  /images/{id}/{uuid}:
+        - tag: image
+      requestBody:
+        $ref: '#/components/requestBodies/Image'
+  '/images/{id}/{uuid}':
     delete:
       tags:
-      - "image"
-      summary: "Delete single image based off id"
+        - image
+      summary: Delete single image based off id
       parameters:
-      - name: "id"
-        in: "path"
-        description: "The id of image that needs to be fetched."
-        required: true
-        type: "string"
-      - name: "uuid"
-        in: "path"
-        description: "The unique identifier used to call the delete function within uploader service."
-        required: true
-        type: "string"
+        - name: id
+          in: path
+          description: The id of image that needs to be fetched.
+          required: true
+          schema:
+            type: string
+        - name: uuid
+          in: path
+          description: >-
+            The unique identifier used to call the delete function within
+            uploader service.
+          required: true
+          schema:
+            type: string
       responses:
-        200:
-          description: "successful operation"
+        '200':
+          description: successful operation
       x-tags:
-      - tag: "album"
-definitions:
-  Album:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      description:
-        type: "string"
-      created_at:
-        type: "integer"
-      updated_at:
-        type: "integer"
-      user_id:
-        type: "string"
-      poster_image_id:
-        type: "integer"
-      state:
-        type: "string"
-  Image:
-    type: "object"
-    properties:
-      name:
-        type: "string"
-      created_at:
-        type: "integer"
-      updated_at:
-        type: "integer"
-      album_id:
-        type: "integer"
-      url:
-        type: "string"
-      thumb_url:
-        type: "string"
-      thumb_height:
-        type: "integer"
-      thumb_width:
-        type: "integer"
-      medium_url:
-        type: "string"
-      medium_height:
-        type: "integer"
-      medium_width:
-        type: "integer"
-      large_url:
-        type: "string"
-      large_height:
-        type: "integer"
-      large_width:
-        type: "integer"
-# Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-# basePath: /SirNexus/album-manager/1.0.0
-schemes:
- - https
-# Added by API Auto Mocking Plugin
-# basePath: /SirNexus/content-service/1.0.0
-# Added by API Auto Mocking Plugin
-basePath: /SirNexus/album-manager/1.0.0
+        - tag: album
+components:
+  schemas:
+    Album:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+        user_id:
+          type: string
+        poster_image_id:
+          type: integer
+        state:
+          type: string
+    Image:
+      type: object
+      properties:
+        name:
+          type: string
+        created_at:
+          type: integer
+        updated_at:
+          type: integer
+        album_id:
+          type: integer
+        url:
+          type: string
+        thumb_url:
+          type: string
+        thumb_height:
+          type: integer
+        thumb_width:
+          type: integer
+        medium_url:
+          type: string
+        medium_height:
+          type: integer
+        medium_width:
+          type: integer
+        large_url:
+          type: string
+        large_height:
+          type: integer
+        large_width:
+          type: integer
+  requestBodies:
+    Album:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Album'
+      description: New album object
+      required: true
+    Image:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Image'
+      description: New image object
+      required: true

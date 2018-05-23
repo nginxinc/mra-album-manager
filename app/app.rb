@@ -43,7 +43,7 @@ helpers do
   # Read the request HTTP_AUTH_ID parameter in to a variable and return it
   #
   def user_id
-		@user_id ||= request.env['HTTP_AUTH_ID']
+    @user_id ||= request.env['HTTP_AUTH_ID']
   end
 
   #
@@ -190,7 +190,7 @@ end
 post '/images' do
 	image = Image.new(params['image'])
 
-	halt 401 if image.album.user_id != user_id
+  halt 401 if image.album.user_id != user_id
 
 	image.save!
 
@@ -199,7 +199,7 @@ post '/images' do
 	album.save!
 
 	status 201
-	image.to_json
+  image.to_json
 end
 
 #
