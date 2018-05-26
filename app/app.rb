@@ -43,7 +43,7 @@ helpers do
   # Read the request HTTP_AUTH_ID parameter in to a variable and return it
   #
   def user_id
-		@user_id ||= request.env['HTTP_AUTH_ID']
+    @user_id ||= request.env['HTTP_AUTH_ID']
   end
 
   #
@@ -78,7 +78,7 @@ helpers do
   # with a setting of WARN unless the env var DEBUG=true has been passed
   #
   def log
-		@log = Logger.new('log/album-manager.log')
+		@log = Logger.new(STDOUT)
 	end
 end
 
@@ -264,8 +264,11 @@ end
 # Removes an image from S3 and from the database
 #
 delete '/images/:id/:uuid' do
-	response = HTTParty.delete(request.env['UPLOADER_PHOTO'] + params[:uuid])
-  response.to_json
+	header = {
+		"auth-id"  => user_id,
+	}
+	response = HTTParty.delete(ENV['UPLOADER_PHOTO'] + params[:uuid], :header => header)
+	response.to_json
 	Image.destroy(image.id)
 	status 202
 end

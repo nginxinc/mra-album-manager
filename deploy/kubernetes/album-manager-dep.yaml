@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: album-manager
+  namespace: nginx-mra
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-mra
+        component: album-manager
+    spec:
+      imagePullSecrets:
+        - name: <DOCKER_SECRET>
+      containers:
+      - name: album-manager
+        image: <IMAGE_REPO_AND_TAG>
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 443
+          name: https
+        env:
+          - name: DATABASE_HOST
+            value: mysql.nginx-mra.svc.cluster.local
+          - name: DATABASE_PASSWORD
+            value: <DATABASE_PASSWORD>
+          - name: DATABASE_USERNAME
+            value: <DATABASE_USERNAME>
+          - name: PORT
+            value: "3306"
+          - name: RACK_ENV
+            value: production
+          - name: UPLOADER_PHOTO
+            value: "http://localhost/uploader/image/uploads/photos/"
+        livenessProbe:
+          httpGet:
+            scheme: HTTPS
+            path: /status
+            port: 443
+            httpHeaders:
+              - name: Host
+                value: <K8S_HOST_NAME>
+          periodSeconds: 20
+          timeoutSeconds: 20
+          successThreshold: 1
+          failureThreshold: 10
