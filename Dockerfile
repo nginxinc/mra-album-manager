@@ -42,17 +42,18 @@ WORKDIR /usr/src/app
 
 # Install nginx and build the application
 RUN /usr/local/bin/install-nginx.sh && \
+  mkdir -p /var/log/nginx && \
   ln -sf /dev/stdout /var/log/nginx/access_log && \
   ln -sf /dev/stderr /var/log/nginx/error_log && \
   mkdir /tmp/sockets && \
   gem install bundler && \
   bundle install --force
 
-RUN mkdir -p /usr/src/app/log/ && \
-    touch /usr/src/app/log/unicorn.stdout.log && \
-    touch /usr/src/app/log/unicorn.stderr.log && \
-    ln -sf /dev/stdout /usr/src/app/log/unicorn.stdout.log && \
-    ln -sf /dev/stderr /usr/src/app/log/unicorn.stderr.log
+RUN mkdir -p /var/log/unicorn && \
+    touch /var/log/unicorn/unicorn.stdout.log && \
+    touch /var/log/unicorn/unicorn.stderr.log && \
+    ln -sf /dev/stdout /var/log/unicorn/unicorn.stdout.log && \
+    ln -sf /dev/stderr /var/log/unicorn/unicorn.stderr.log
 
 RUN chmod -R 777 /usr/src/app
 
