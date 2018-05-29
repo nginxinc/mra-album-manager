@@ -11,7 +11,11 @@ timeout 30
 
 # Specify path to socket unicorn listens to,
 # we will use this in our nginx.conf later
-listen "/tmp/sockets/unicorn.sock", :backlog => 64
+if ENV['NETWORK'] == 'fabric'
+  listen "/tmp/sockets/unicorn.sock", :backlog => 64
+else
+  listen "8080", :backlog => 64
+end
 
 # Set process id path
 pid "/var/run/unicorn.pid"
