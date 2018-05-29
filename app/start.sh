@@ -9,7 +9,7 @@ echo "Running ${APP}"
 
 APP_PID=/var/run/unicorn.pid
 
-if [  -f "$APP_PID" ]; then
+if [ -f "$APP_PID" ]; then
     echo "Removing ${APP_PID}"
     rm -f ${APP_PID}
 fi
