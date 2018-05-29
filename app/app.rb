@@ -56,6 +56,15 @@ helpers do
 	end
 
   #
+  # Retrieve the album specified by tne ID
+  #
+  def public
+    @public ||= Album.includes(:images, :poster_image)
+                   .where(id: params[:id], public: true)
+                   .take || halt(404)
+  end
+
+  #
   # Retrieve the image specified by the id parameter
   #
   def image
@@ -78,16 +87,17 @@ end
 # user_id is set from the helper method
 #
 before do
-	pass if request.path_info == '/'
-	halt 401, 'Auth-ID header is really required' if user_id.nil?
 	content_type 'application/json'
 	log.level = Logger::WARN
-	if ENV['DEBUG'] == true
+	if ENV['DEBUG'] == 'true'
 		log.level = Logger::DEBUG
 	end
 	paramsString = ""
-  params.each{|param| paramsString += "#{param} "}
-	log.debug "The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }"
+	params.each{|param| paramsString += "#{param} "}
+	log.debug("The request path: #{ request.path_info } and params #{ paramsString } and header #{ request.env['HTTP_AUTH_ID'] }")
+
+	pass if (request.path_info == '/' || request.path_info =~ /^\/public\//)
+	halt 401, 'Auth-ID header is really required' if user_id.nil?
 end
 
 #
@@ -95,10 +105,32 @@ end
 # This is used for health checks
 #
 get '/' do
-	'Sinatra is up!'
+	'Sinatra is up!' + "\n"
 end
 
 #
+# Handle get requests for the path "/public"
+# Find all pending albums in tne database and delete any older than
+# 15 minutes
+#
+# Then query for albums with a poster image and return their data as JSON
+#
+ get '/public/:id' do
+   public.to_json(:include => [:images, :poster_image])
+ end
+
+#
+# Handles a patch request to "/albums/XXX/public/boolean" where XXX is the unique ID of an album and public/boolean
+# Updates the album with the data in the request payload
+#
+ patch '/albums/:id/public/:public' do
+   album.update(public: params[:public])
+   album.save!
+
+   status 202
+ end
+
+
 # Handle get requests for the path "/albums"
 # Find all pending albums in tne database and delete any older than
 # 15 minutes
@@ -170,7 +202,8 @@ end
 # Delete the album with the specified ID
 #
 delete '/albums/:id' do
-	Album.destroy(album.id)
+  halt 405, 'Albums associated with Posts are Public and cannot be deleted' if album.public?
+  Album.destroy(album.id)
 	status 202
 end
 
@@ -190,7 +223,7 @@ end
 post '/images' do
 	image = Image.new(params['image'])
 
-  halt 401 if image.album.user_id != user_id
+	halt 401 if image.album.user_id != user_id
 
 	image.save!
 
@@ -199,7 +232,7 @@ post '/images' do
 	album.save!
 
 	status 201
-  image.to_json
+	image.to_json
 end
 
 #
