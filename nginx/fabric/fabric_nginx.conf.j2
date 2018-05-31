@@ -64,7 +64,7 @@ http {
 
   {% for name, service in services.iteritems() %}
   upstream {{ name }}{{ oss_extension or '' }} {
-    server          {{ name }}{{ oss_extension or '' }}{% if service.server != None and service.server != '' %}.{{ service.server }}{% endif %};
+    server          {{ oss_extension or '' }}{% if service.server != None and service.server != '' %} {{ service.server }}{% endif %};
     zone backend    64k;
     keepalive       300;
   }
