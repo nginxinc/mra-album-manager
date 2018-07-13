@@ -20,7 +20,7 @@
 require 'rack/test'
 require 'rspec'
 
-require 'factory_girl'
+require 'factory_bot'
 require 'factories'
 require 'database_cleaner'
 
@@ -42,11 +42,11 @@ RSpec.configure do |config|
   #Sinatra configuration
   config.include RSpecMixin
 
-  #FactoryGirl configuration
-  config.include FactoryGirl::Syntax::Methods
+  #FactoryBot configuration
+  config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
-    FactoryGirl.lint
+    FactoryBot.lint
     DatabaseCleaner.strategy = :truncation
   end
 

@@ -8,16 +8,19 @@ gem 'json'
 gem 'newrelic_rpm'
 gem 'httparty'
 gem 'rake'
+gem 'dotenv'
 
 group :development, :test do
   gem 'better_errors'
   gem 'sqlite3'
+  gem 'mysql2'
 end
 
 group :test do
   gem 'database_cleaner'
-  gem 'factory_girl', '~> 4.0'
+  gem 'factory_bot'
   gem 'rspec'
+  gem 'rack-test'
 end
 
 group :production do

@@ -25,8 +25,9 @@ GEM
     concurrent-ruby (1.0.5)
     database_cleaner (1.6.2)
     diff-lcs (1.3)
+    dotenv (2.4.0)
     erubi (1.7.0)
-    factory_girl (4.9.0)
+    factory_bot (4.8.2)
       activesupport (>= 3.0.0)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
@@ -43,6 +44,8 @@ GEM
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
+    rack-test (1.0.0)
+      rack (>= 1.0, < 3)
     raindrops (0.19.0)
     rake (12.3.0)
     rspec (3.7.0)
@@ -91,11 +94,13 @@ DEPENDENCIES
   activerecord (~> 4.2.7.1)
   better_errors
   database_cleaner
-  factory_girl (~> 4.0)
+  dotenv
+  factory_bot
   httparty
   json
   mysql2
   newrelic_rpm
+  rack-test
   rake
   rspec
   sinatra
@@ -105,4 +110,4 @@ DEPENDENCIES
   unicorn
 
 BUNDLED WITH
-   1.16.1
+   1.16.2

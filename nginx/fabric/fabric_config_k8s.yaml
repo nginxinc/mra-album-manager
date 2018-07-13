@@ -1,8 +1,12 @@
 name: album-manager
 resolver:
-  host: 127.0.0.11
+  host: kube-dns.kube-system.svc.cluster.local
   ttl: 3s
+external_domain_name: k8s.mra.nginxps.com
+internal_domain_name: svc.cluster.local
+namespace: nginx-mra
 root: /usr/src/app/public
+oss_extension: .oss
 log_to_syslog : false
 syslog_error_log_location: "syslog:server=localhost:5544 debug"
 error_log_location: "/var/log/nginx/error_log debug"
@@ -11,7 +15,8 @@ syslog_access_log_location: "syslog:server=localhost:5544,facility=local6,tag=al
 access_log_location: "/var/log/nginx/access_log combined"
 services:
   uploader:
-    server: ''
+    server: svc.cluster.local
+    service: service=_https._tcp.uploader
     expose_external: true
-    healthcheck: false
-    port: 84
+    healthcheck: true
+    port: 443
