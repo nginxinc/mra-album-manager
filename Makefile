@@ -1,4 +1,4 @@
-tag = ngrefarch/album-manager:mesos
+tag = ngrefarch/album-manager:local
 volumes = -v $(CURDIR):/usr/src/app -v $(CURDIR)/nginx.conf:/etc/nginx/nginx.conf
 ports = -p 80:80 -p 443:443
 env = --env-file=.env

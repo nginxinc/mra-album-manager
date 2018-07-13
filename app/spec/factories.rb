@@ -5,7 +5,7 @@
 #  Copyright © 2017 NGINX Inc. All rights reserved.
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :album do
 
     factory :album_with_images do
