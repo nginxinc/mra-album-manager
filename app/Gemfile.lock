@@ -96,7 +96,7 @@ DEPENDENCIES
   factory_bot
   httparty
   json
-  mysql2
+  mysql2 (~> 0.5.2)
   newrelic_rpm
   rack-test
   rake
