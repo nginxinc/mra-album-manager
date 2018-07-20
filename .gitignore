@@ -53,3 +53,5 @@ app/log/
 *.iml
 
 *.log
+*.key
+*.csr
