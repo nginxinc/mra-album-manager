@@ -1,4 +1,4 @@
-class AddSizesToImage < ActiveRecord::Migration
+class AddSizesToImage < ActiveRecord::Migration[5.2]
   def change
   	add_column :images, :thumb_url, :string
   	add_column :images, :thumb_height, :integer
